@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Security Engineering Student Portal{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl">
+    <h2 class="text-3xl font-semibold text-slate-900 mb-2">Dashboard</h2>
+    <p class="text-lg text-slate-600 mb-8">Welcome back, <span class="font-medium text-purple-900">{{ user.name }}</span>.</p>
+
+    <div class="grid gap-4 sm:grid-cols-2">
+        <a href="/results" class="block rounded-xl border border-slate-200 bg-white p-5 shadow-sm hover:border-purple-300 hover:shadow transition">
+            <h3 class="font-semibold text-slate-900">Results</h3>
+            <p class="mt-1 text-sm text-slate-500">View your recent assignment grades.</p>
+        </a>
+        <a href="/classmates" class="block rounded-xl border border-slate-200 bg-white p-5 shadow-sm hover:border-purple-300 hover:shadow transition">
+            <h3 class="font-semibold text-slate-900">Classmates</h3>
+            <p class="mt-1 text-sm text-slate-500">Browse students in your course.</p>
+        </a>
+        <a href="/notes" class="block rounded-xl border border-slate-200 bg-white p-5 shadow-sm hover:border-purple-300 hover:shadow transition">
+            <h3 class="font-semibold text-slate-900">Notes</h3>
+            <p class="mt-1 text-sm text-slate-500">Open your private course notes.</p>
+        </a>
+        <a href="/profile" class="block rounded-xl border border-slate-200 bg-white p-5 shadow-sm hover:border-purple-300 hover:shadow transition">
+            <h3 class="font-semibold text-slate-900">Profile</h3>
+            <p class="mt-1 text-sm text-slate-500">Update your name and bio.</p>
+        </a>
+    </div>
+</div>
+{% endblock %}

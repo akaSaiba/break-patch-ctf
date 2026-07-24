@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Notes - Security Engineering Student Portal{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl">
+    <h2 class="text-3xl font-semibold text-slate-900 mb-2">Private Notes</h2>
+    <p class="text-slate-600 mb-8">Your personal course notes for this term.</p>
+
+    <div id="notes-card" class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm min-h-[12rem]">
+        <p class="text-sm text-slate-400">Loading notes...</p>
+    </div>
+    <p id="notes-error" class="hidden mt-4 text-sm text-red-600"></p>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const userUuid = "{{ user.uuid }}";
+
+    async function loadNotes() {
+        const card = document.getElementById("notes-card");
+        const errorEl = document.getElementById("notes-error");
+
+        try {
+            const response = await fetch(`/api/notes/${userUuid}`);
+            if (!response.ok) {
+                throw new Error("Failed to load notes");
+            }
+
+            const data = await response.json();
+            const notes = data.notes ?? data.content ?? data;
+
+            if (typeof notes === "string") {
+                card.innerHTML = `<textarea readonly class="w-full min-h-[16rem] resize-y rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm text-slate-800 focus:outline-none">${notes}</textarea>`;
+            } else if (Array.isArray(notes)) {
+                card.innerHTML = notes.map((note) => `
+                    <article class="mb-4 last:mb-0 rounded-lg border border-slate-100 bg-slate-50 p-4">
+                        <h3 class="font-medium text-slate-900 mb-1">${note.title ?? "Note"}</h3>
+                        <p class="text-sm text-slate-700 whitespace-pre-wrap">${note.content ?? note.body ?? ""}</p>
+                    </article>
+                `).join("") || `<p class="text-sm text-slate-400">No notes yet.</p>`;
+            } else {
+                card.innerHTML = `<pre class="text-sm text-slate-700 whitespace-pre-wrap">${JSON.stringify(notes, null, 2)}</pre>`;
+            }
+        } catch (error) {
+            card.innerHTML = `<p class="text-sm text-slate-400">Unable to load notes.</p>`;
+            errorEl.textContent = error.message;
+            errorEl.classList.remove("hidden");
+        }
+    }
+
+    loadNotes();
+</script>
+{% endblock %}
