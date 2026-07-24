@@ -1,11 +1,11 @@
 services:
-  broken-access-controls:
-    container_name: broken-access-controls
-    build: ./broken-access-controls
+  challenge-app:
+    container_name: challenge-app
+    build: ./challenge-app
     ports:
       - "5000:5000"
     volumes:
-      - ./broken-access-controls:/app
+      - ./challenge-app:/app
     command: uvicorn main:app --host 0.0.0.0 --port 5000 --reload
 
   ctf-dashboard:
@@ -17,4 +17,4 @@ services:
       - ./ctf-dashboard:/app
     command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
     depends_on:
-      - broken-access-controls
+      - challenge-app
