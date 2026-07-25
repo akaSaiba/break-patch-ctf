@@ -1,7 +1,7 @@
 import sqlite3
 from pathlib import Path
 
-BASE_DIR = Path(__file__).parent
+BASE_DIR = Path(__file__).resolve().parent.parent
 DB_PATH = BASE_DIR / "portal.db"
 SEED_SQL_PATH = BASE_DIR / "seed.sql"
 

@@ -1,10 +1,16 @@
 from contextlib import asynccontextmanager
 from pathlib import Path
+import sys
 
 from fastapi import FastAPI, Request
 from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+
+# challenge-files is not a valid Python package name (hyphen), so add it to sys.path.
+_CHALLENGE_FILES = Path(__file__).resolve().parent / "challenge-files"
+if str(_CHALLENGE_FILES) not in sys.path:
+    sys.path.insert(0, str(_CHALLENGE_FILES))
 
 from api import COOKIE_NAME, router as api_router
 from database import (

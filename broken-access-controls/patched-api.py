@@ -4,8 +4,15 @@ Patched API reference for the Broken Access Control lab.
 Copy/adapt these authorization checks into api.py to pass Verify Patch.
 """
 
+from pathlib import Path
+import sys
+
 from fastapi import APIRouter, Body, Cookie, Depends, HTTPException, Response
 import sqlite3
+
+_CHALLENGE_FILES = Path(__file__).resolve().parent / "challenge-files"
+if str(_CHALLENGE_FILES) not in sys.path:
+    sys.path.insert(0, str(_CHALLENGE_FILES))
 
 from database import (
     get_classmates,

@@ -97,30 +97,51 @@
                     <p class="px-3 pb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-plum-500">Resources</p>
 
                     <template x-for="item in nav" :key="item.id">
-                        <button
-                            type="button"
-                            @click="go(item.id)"
-                            class="w-full text-left rounded-lg px-3 py-2 text-sm font-medium transition-colors border border-transparent"
-                            :class="page === item.id
-                                ? 'border-plum-500/70 text-plum-200 bg-ink-800/70'
-                                : 'text-plum-400 hover:border-ink-500 hover:text-plum-200'"
-                            x-text="item.label"
-                        ></button>
-                    </template>
+                        <div>
+                            <!-- Plain link -->
+                            <button
+                                x-show="!item.children"
+                                type="button"
+                                @click="go(item.id)"
+                                class="w-full text-left rounded-lg px-3 py-2 text-sm font-medium transition-colors border border-transparent"
+                                :class="page === item.id
+                                    ? 'border-plum-500/70 text-plum-200 bg-ink-800/70'
+                                    : 'text-plum-400 hover:border-ink-500 hover:text-plum-200'"
+                                x-text="item.label"
+                            ></button>
 
-                    <div class="pt-5 mt-5 border-t border-ink-700 space-y-3">
-                        <p class="px-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-plum-500">Ports</p>
-                        <div class="mx-1 rounded-lg border border-ink-600 bg-ink-850 p-3">
-                            <div class="flex items-center justify-between text-xs mb-2">
-                                <span class="text-plum-400">Target App</span>
-                                <span class="font-mono text-plum-300">:5000</span>
-                            </div>
-                            <div class="flex items-center justify-between text-xs">
-                                <span class="text-plum-400">Dashboard</span>
-                                <span class="font-mono text-plum-300">:8000</span>
+                            <!-- Dropdown module -->
+                            <div x-show="item.children" class="space-y-1">
+                                <button
+                                    type="button"
+                                    @click="toggleNav(item.id)"
+                                    class="w-full text-left rounded-lg px-3 py-2 text-sm font-medium transition-colors border border-transparent flex items-center justify-between gap-2"
+                                    :class="page === item.id
+                                        ? 'border-plum-500/70 text-plum-200 bg-ink-800/70'
+                                        : 'text-plum-400 hover:border-ink-500 hover:text-plum-200'"
+                                >
+                                    <span class="truncate" x-text="item.label"></span>
+                                    <span
+                                        class="shrink-0 text-plum-500 font-mono text-xs transition-transform"
+                                        :class="openNav[item.id] ? 'rotate-90' : ''"
+                                    >›</span>
+                                </button>
+                                <div x-show="openNav[item.id]" class="ml-2 pl-2 border-l border-ink-700 space-y-0.5">
+                                    <template x-for="child in item.children" :key="item.id + '-' + child.id">
+                                        <button
+                                            type="button"
+                                            @click="goSection(item.id, child.id)"
+                                            class="w-full text-left rounded-lg px-3 py-1.5 text-sm transition-colors border border-transparent"
+                                            :class="page === item.id && activeTabFor(item.id) === child.id
+                                                ? 'border-plum-500/50 text-plum-200 bg-ink-800/50'
+                                                : 'text-plum-500 hover:border-ink-600 hover:text-plum-300'"
+                                            x-text="child.label"
+                                        ></button>
+                                    </template>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </template>
                 </nav>
             </aside>
 
@@ -165,7 +186,7 @@
                                 <template x-for="tab in bacTabs" :key="tab.id">
                                     <button
                                         type="button"
-                                        @click="bacTab = tab.id"
+                                        @click="setTab('broken-access-control', tab.id)"
                                         class="rounded-lg px-3 py-2 text-sm font-medium transition-colors border border-transparent"
                                         :class="bacTab === tab.id
                                             ? 'border-plum-500/70 text-plum-200 bg-ink-700/80'
@@ -219,6 +240,20 @@
                                                 The most common cause of <span class="text-plum-200">vertical</span> escalation. It occurs when an application relies on the client (like hiding a UI button) to restrict access to a feature, but the backend server fails to properly verify the user’s role before allowing them to execute that specific administrative function.
                                             </p>
                                         </div>
+                                    </div>
+                                </div>
+
+                                <div class="pt-2 border-t border-ink-600">
+                                    <h3 class="text-sm font-semibold uppercase tracking-[0.14em] text-plum-400 mb-3">The Challenge App</h3>
+                                    <p class="text-plum-300 text-[15px] mb-3">
+                                        The target for these challenges is a <span class="text-plum-200 font-medium">student portal</span> for a Security Engineering course. It lets students view results, browse classmates, keep private notes, and manage a simple profile.
+                                    </p>
+                                    <p class="text-sm text-plum-400 mb-3">
+                                        Open the portal at <span class="font-mono text-plum-300">http://localhost:5000</span>. To work through the challenges, log in with:
+                                    </p>
+                                    <div class="rounded-lg border border-ink-600 bg-ink-850 px-4 py-3 font-mono text-sm text-plum-200 space-y-1">
+                                        <p><span class="text-plum-500">username</span>: ctfuser</p>
+                                        <p><span class="text-plum-500">password</span>: ctfpassword</p>
                                     </div>
                                 </div>
                             </article>
@@ -354,8 +389,25 @@
                                 Locked
                             </span>
                         </div>
+
+                        <div class="rounded-xl border border-ink-600 bg-ink-800/70 p-1.5 shadow-soft">
+                            <div class="flex flex-wrap gap-1.5">
+                                <template x-for="tab in mecTabs" :key="tab.id">
+                                    <button
+                                        type="button"
+                                        @click="setTab('mishandling-exceptional-conditions', tab.id)"
+                                        class="rounded-lg px-3 py-2 text-sm font-medium transition-colors border border-transparent"
+                                        :class="mecTab === tab.id
+                                            ? 'border-plum-500/70 text-plum-200 bg-ink-700/80'
+                                            : 'text-plum-500 hover:border-ink-500 hover:text-plum-300'"
+                                        x-text="tab.label"
+                                    ></button>
+                                </template>
+                            </div>
+                        </div>
+
                         <div class="rounded-xl border border-dashed border-ink-600 bg-ink-800/50 min-h-[22rem] flex items-center justify-center shadow-soft">
-                            <p class="text-sm text-plum-500 font-mono">Page content coming soon</p>
+                            <p class="text-sm text-plum-500 font-mono" x-text="'Page content coming soon — ' + (mecTabs.find(t => t.id === mecTab)?.label || mecTab)"></p>
                         </div>
                     </div>
                 </div>
@@ -376,11 +428,30 @@
             return "introduction";
         }
 
+        function tabFromHash() {
+            const hash = (window.location.hash || "").replace(/^#/, "");
+            return hash || "learn";
+        }
+
         function dashboardApp(initialPage) {
+            const startPage = initialPage || pathToPage(window.location.pathname);
+            const startTab = tabFromHash();
             return {
-                page: initialPage || pathToPage(window.location.pathname),
-                bacTab: "learn",
+                page: startPage,
+                bacTab: startPage === "broken-access-control" ? startTab : "learn",
+                mecTab: startPage === "mishandling-exceptional-conditions" ? startTab : "learn",
+                openNav: {
+                    "broken-access-control": startPage === "broken-access-control",
+                    "mishandling-exceptional-conditions": startPage === "mishandling-exceptional-conditions",
+                },
                 bacTabs: [
+                    { id: "learn", label: "Learn" },
+                    { id: "challenge-1", label: "Challenge 1" },
+                    { id: "challenge-2", label: "Challenge 2" },
+                    { id: "challenge-3", label: "Challenge 3" },
+                    { id: "challenge-4", label: "Challenge 4" },
+                ],
+                mecTabs: [
                     { id: "learn", label: "Learn" },
                     { id: "challenge-1", label: "Challenge 1" },
                     { id: "challenge-2", label: "Challenge 2" },
@@ -476,9 +547,50 @@
                 ],
                 nav: [
                     { id: "introduction", label: "Introduction" },
-                    { id: "broken-access-control", label: "Broken Access Control" },
-                    { id: "mishandling-exceptional-conditions", label: "Mishandling of Exceptional Conditions" },
+                    {
+                        id: "broken-access-control",
+                        label: "Broken Access Control",
+                        children: [
+                            { id: "learn", label: "Learn" },
+                            { id: "challenge-1", label: "Challenge 1" },
+                            { id: "challenge-2", label: "Challenge 2" },
+                            { id: "challenge-3", label: "Challenge 3" },
+                            { id: "challenge-4", label: "Challenge 4" },
+                        ],
+                    },
+                    {
+                        id: "mishandling-exceptional-conditions",
+                        label: "Mishandling of Exceptional Conditions",
+                        children: [
+                            { id: "learn", label: "Learn" },
+                            { id: "challenge-1", label: "Challenge 1" },
+                            { id: "challenge-2", label: "Challenge 2" },
+                            { id: "challenge-3", label: "Challenge 3" },
+                            { id: "challenge-4", label: "Challenge 4" },
+                        ],
+                    },
                 ],
+                activeTabFor(pageId) {
+                    if (pageId === "broken-access-control") return this.bacTab;
+                    if (pageId === "mishandling-exceptional-conditions") return this.mecTab;
+                    return null;
+                },
+                toggleNav(id) {
+                    this.openNav[id] = !this.openNav[id];
+                },
+                setTab(pageId, tabId) {
+                    if (pageId === "broken-access-control") this.bacTab = tabId;
+                    if (pageId === "mishandling-exceptional-conditions") this.mecTab = tabId;
+                    const url = (ROUTES[pageId] || "/") + "#" + tabId;
+                    window.history.replaceState({ page: pageId, tab: tabId }, "", url);
+                },
+                goSection(pageId, tabId) {
+                    this.openNav[pageId] = true;
+                    this.page = pageId;
+                    this.setTab(pageId, tabId);
+                    const item = this.nav.find((n) => n.id === pageId);
+                    document.title = (item?.label || pageId) + " — CTF Dashboard";
+                },
                 submitFlag(challenge) {
                     const submitted = (challenge.flagInput || "").trim();
                     if (!submitted) {
@@ -525,8 +637,10 @@
                     }
                 },
                 go(id) {
-                    if (this.page === id) return;
                     this.page = id;
+                    if (id === "broken-access-control" || id === "mishandling-exceptional-conditions") {
+                        this.openNav[id] = true;
+                    }
                     const url = ROUTES[id] || "/";
                     window.history.pushState({ page: id }, "", url);
                     document.title = this.nav.find((n) => n.id === id)?.label + " — CTF Dashboard";
@@ -534,6 +648,16 @@
                 init() {
                     window.addEventListener("popstate", () => {
                         this.page = pathToPage(window.location.pathname);
+                        const tab = tabFromHash();
+                        if (this.page === "broken-access-control") this.bacTab = tab;
+                        if (this.page === "mishandling-exceptional-conditions") this.mecTab = tab;
+                        this.openNav["broken-access-control"] = this.page === "broken-access-control";
+                        this.openNav["mishandling-exceptional-conditions"] = this.page === "mishandling-exceptional-conditions";
+                    });
+                    window.addEventListener("hashchange", () => {
+                        const tab = tabFromHash();
+                        if (this.page === "broken-access-control") this.bacTab = tab;
+                        if (this.page === "mishandling-exceptional-conditions") this.mecTab = tab;
                     });
                 },
             };
