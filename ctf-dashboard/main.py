@@ -60,8 +60,8 @@ def mishandling_exceptional_conditions(request: Request):
     summary="Test target connectivity",
 )
 def test_connection():
-    """Ping the challenge-app target over Docker networking."""
-    response = requests.get("http://challenge-app:5000/api/ping")
+    """Ping the broken-access-controls target over Docker networking."""
+    response = requests.get("http://broken-access-controls:5000/api/ping")
     return {
         "status_code": response.status_code,
         "target_response": response.json(),

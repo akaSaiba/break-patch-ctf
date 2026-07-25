@@ -1,4 +1,5 @@
 from contextlib import asynccontextmanager
+from pathlib import Path
 
 from fastapi import FastAPI, Request
 from fastapi.responses import RedirectResponse
@@ -14,6 +15,8 @@ from database import (
     verify_credentials,
 )
 
+Path("static").mkdir(exist_ok=True)
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -24,7 +27,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title="Security Engineering Student Portal",
-    description="Intentionally vulnerable CTF challenge application.",
+    description="Intentionally vulnerable Broken Access Control CTF lab.",
     version="1.0.0",
     lifespan=lifespan,
     docs_url="/docs",
