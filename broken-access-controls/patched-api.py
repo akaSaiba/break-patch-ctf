@@ -1,3 +1,9 @@
+"""
+Patched API reference for the Broken Access Control lab.
+
+Copy/adapt these authorization checks into api.py to pass Verify Patch.
+"""
+
 from fastapi import APIRouter, Body, Cookie, Depends, HTTPException, Response
 import sqlite3
 
@@ -17,6 +23,9 @@ from database import (
 router = APIRouter(prefix="/api", tags=["API"])
 
 COOKIE_NAME = "session_token"
+
+# Only allow students to edit these profile fields (blocks mass-assignment of role, etc.)
+PROFILE_ALLOWED_FIELDS = {"name", "bio"}
 
 USER_EXAMPLE = {
     "id": 5501,
@@ -72,13 +81,11 @@ CLASSMATES_EXAMPLE = [
         "id": 1,
         "user_id": 9908,
         "name": "Harry Potter",
-        "uuid": "a1b2c3d4-e5f6-7820-adcd-ef1234567890",
     },
     {
         "id": 2,
         "user_id": 3332,
         "name": "Hermione Granger",
-        "uuid": "b2c3d4e5-f6a7-8901-bcde-f12345678901",
     },
 ]
 
@@ -105,7 +112,7 @@ def _json_example(example) -> dict:
 
 
 def get_current_user(session_token: str | None = Cookie(default=None, alias=COOKIE_NAME)):
-    """Returns user object from session token"""
+    """Resolve the logged-in user from the session_token cookie."""
     user_id = parse_session_token(session_token)
     if user_id is None:
         raise HTTPException(status_code=401, detail="Not authenticated")
@@ -142,12 +149,13 @@ def api_login(payload: dict, response: Response):
         "user": user,
     }
 
+
 # ##############################################################################
 #
-#   API ENDPOINTS
-#   See below for API endpoints used in challenges
+#   PATCHED API ENDPOINTS
 #
 # ##############################################################################
+
 
 @router.get(
     "/results/{user_id}",
@@ -155,8 +163,11 @@ def api_login(payload: dict, response: Response):
     responses=_json_example(RESULTS_EXAMPLE),
 )
 def api_results(user_id: int, user: dict = Depends(get_current_user)):
-    """Given a user_id, fetches the course results for that user"""
-    
+    """Given a user_id, fetches the course results for that user."""
+    # PATCH: ownership check — block horizontal IDOR
+    if user["role"] != "staff" and user_id != user["user_id"]:
+        raise HTTPException(status_code=403, detail="Forbidden")
+
     results = get_results_by_user_id(user_id)
     if results is None:
         raise HTTPException(status_code=404, detail="Results not found")
@@ -170,7 +181,10 @@ def api_results(user_id: int, user: dict = Depends(get_current_user)):
     responses=_json_example(EXAMS_EXAMPLE),
 )
 def api_staff_exams(user: dict = Depends(get_current_user)):
-    """Return exam papers"""
+    """Return exam papers."""
+    # PATCH: function-level authorization — students cannot call staff endpoints
+    if user["role"] != "staff":
+        raise HTTPException(status_code=403, detail="Staff only")
 
     return get_exams()
 
@@ -181,7 +195,7 @@ def api_staff_exams(user: dict = Depends(get_current_user)):
     responses=_json_example(EXAM_SOLUTIONS_EXAMPLE),
 )
 def api_staff_exam_solution(user: dict = Depends(get_current_user)):
-    """Return exam solutions"""
+    """Return exam solutions."""
     if user["role"] != "staff":
         raise HTTPException(status_code=403, detail="Staff only")
 
@@ -194,9 +208,17 @@ def api_staff_exam_solution(user: dict = Depends(get_current_user)):
     responses=_json_example(CLASSMATES_EXAMPLE),
 )
 def api_classmates(user: dict = Depends(get_current_user)):
-    """Returns a list of classmates"""
-
-    return get_classmates()
+    """Returns a list of classmates."""
+    classmates = get_classmates()
+    # PATCH: stop leaking private UUIDs that enable notes BOLA
+    return [
+        {
+            "id": classmate["id"],
+            "user_id": classmate["user_id"],
+            "name": classmate["name"],
+        }
+        for classmate in classmates
+    ]
 
 
 @router.get(
@@ -205,7 +227,10 @@ def api_classmates(user: dict = Depends(get_current_user)):
     responses=_json_example(NOTES_EXAMPLE),
 )
 def api_notes(uuid: str, user: dict = Depends(get_current_user)):
-    """Given a uuid, fetches the notes for that user"""
+    """Given a uuid, fetches the notes for that user."""
+    # PATCH: ownership check — only the note owner (or staff) may read notes
+    if user["role"] != "staff" and uuid != user["uuid"]:
+        raise HTTPException(status_code=403, detail="Forbidden")
 
     notes = get_notes_by_uuid(uuid)
     if notes is None:
@@ -227,13 +252,13 @@ def api_get_profile(user: dict = Depends(get_current_user)):
 @router.put(
     "/profile",
     summary="Updates the current user's profile",
-    responses=_json_example({**USER_EXAMPLE, "role": "staff"}),
+    responses=_json_example(USER_EXAMPLE),
 )
 def api_put_profile(
     payload: dict = Body(
         example={
             "name": "Bob McBuilder",
-            "bio": "First-year security engineering student"
+            "bio": "First-year security engineering student",
         }
     ),
     user: dict = Depends(get_current_user),
@@ -241,8 +266,13 @@ def api_put_profile(
     """Update the current user's profile with the given payload."""
     logged_in_id = user["user_id"]
 
+    # PATCH: whitelist safe fields — block mass assignment of role / user_id / uuid / etc.
+    safe_payload = {
+        key: value for key, value in payload.items() if key in PROFILE_ALLOWED_FIELDS
+    }
+
     try:
-        updated = mass_update_user(logged_in_id, payload)
+        updated = mass_update_user(logged_in_id, safe_payload)
     except sqlite3.IntegrityError as error:
         raise HTTPException(status_code=400, detail=f"Invalid profile update: {error}") from error
 

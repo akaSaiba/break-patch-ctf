@@ -17,7 +17,7 @@ CREATE TABLE users (
 INSERT INTO users (id, username, password, name, bio, user_id, role, uuid) VALUES
 (1, 'ctfuser', 'ctfpassword', 'Bob McBuilder', 'First-year security engineering student.', 5501, 'student', 'a1b2c3d4-e5f6-7890-abcd-ef1234567890'),
 (2, 'jsmith', 'password123', 'Jordan Smith', 'Coffee-powered debugger.', 5502, 'student', 'b2c3d4e5-f6a7-8901-bcde-f12345678901'),
-(3, 'mchen', 'letmein', 'Morgan Chen', 'CTF enthusiast and note-taker.', 5503, 'student', 'c3d4e5f6-a7b8-9012-cdef-123456789012'),
+(3, 'egoist', 'letmein', 'Bob McStriker', 'CTF enthusiast and note-taker.', 5503, 'student', 'c3d4e5f6-a7b8-9012-cdef-123456789012'),
 (4, 'alee', 'qwerty', 'Avery Lee', 'Loves access-control labs.', 5504, 'student', 'd4e5f6a7-b8c9-0123-def0-234567890123'),
 (5, 'admin', 'admin', 'Admin', 'System administrator account.', 9999, 'staff', 'e5f6a7b8-c9d0-1234-ef01-345678901234');
 

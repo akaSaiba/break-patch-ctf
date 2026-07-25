@@ -1,7 +1,28 @@
-from fastapi import FastAPI, Request
+import importlib.util
+from pathlib import Path
+
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import requests
+
+_VERIFY_API_PATH = (
+    Path(__file__).parent / "verify-patch-apis" / "broken-access-control-api.py"
+)
+_spec = importlib.util.spec_from_file_location(
+    "broken_access_control_api",
+    _VERIFY_API_PATH,
+)
+bac_verify = importlib.util.module_from_spec(_spec)
+assert _spec.loader is not None
+_spec.loader.exec_module(bac_verify)
+
+BAC_CHALLENGE_TESTS = {
+    1: bac_verify.test_challenge_1,
+    2: bac_verify.test_challenge_2,
+    3: bac_verify.test_challenge_3,
+    4: bac_verify.test_challenge_4,
+}
 
 app = FastAPI(
     title="CTF Dashboard & Scoring Engine",
@@ -17,6 +38,7 @@ app = FastAPI(
     ],
 )
 
+Path("static").mkdir(exist_ok=True)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
@@ -66,3 +88,16 @@ def test_connection():
         "status_code": response.status_code,
         "target_response": response.json(),
     }
+
+
+@app.post(
+    "/verify/a01/challenge/{challenge_num}",
+    tags=["Verification"],
+    summary="Verify a Broken Access Control patch",
+)
+def verify_bac_challenge(challenge_num: int):
+    """Run automated patch checks for BAC challenge 1–4."""
+    test_fn = BAC_CHALLENGE_TESTS.get(challenge_num)
+    if test_fn is None:
+        raise HTTPException(status_code=404, detail="Unknown challenge number")
+    return test_fn()
