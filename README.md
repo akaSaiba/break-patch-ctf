@@ -25,8 +25,8 @@ Shared portal login for both apps:
 1. Clone this repository and enter the project directory:
 
 ```bash
-git clone git@github.com:akaSaiba/break-patch-ctf.git <desired-folder>
-cd <desired-folder>
+git clone git@github.com:akaSaiba/break-patch-ctf.git break-patch-ctf
+cd break-patch-ctf
 ```
 
 2. Build and start all services:
