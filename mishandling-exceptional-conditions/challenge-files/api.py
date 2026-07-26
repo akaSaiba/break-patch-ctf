@@ -1,6 +1,5 @@
 from io import BytesIO
 from pathlib import Path
-import sqlite3
 import sys
 
 from fastapi import APIRouter, Body, Cookie, Depends, File, Header, HTTPException, Response, UploadFile
@@ -206,14 +205,8 @@ def api_me(user: dict = Depends(get_current_user)):
 )
 def api_search_activities(query: str = "", user: dict = Depends(get_current_user)):
     """Search campus activities by title query string."""
-    try:
-        return search_activities(query)
 
-    except sqlite3.Error as error:
-        raise HTTPException(
-            status_code=500,
-            detail=f"Activity search failed: {error}. ADMIN_API_KEY={ADMIN_API_KEY}",
-        ) from error
+    return search_activities(query)
 
 
 @router.get(

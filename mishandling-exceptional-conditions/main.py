@@ -12,6 +12,7 @@ _CHALLENGE_FILES = Path(__file__).resolve().parent / "challenge-files"
 if str(_CHALLENGE_FILES) not in sys.path:
     sys.path.insert(0, str(_CHALLENGE_FILES))
 
+import api as challenge_api
 from api import COOKIE_NAME, router as api_router
 from database import (
     get_user_by_id,
@@ -22,6 +23,22 @@ from database import (
 )
 
 Path("static").mkdir(exist_ok=True)
+
+# keep the original api function for search activites
+_original_search_activities = challenge_api.search_activities
+
+# create a new wrapper function that will be called instead of the original function (this is so the stack trace shows this wrapper function
+# when it crashes, revealing the ADMIN_API_KEY without it being exposed in the code (inside challenge-files/api.py))
+def run_activity_search(query: str):
+    # TODO: REMOVE BEFORE SHIPPING! IMPORTANT SECRET
+    # ADMIN_API_KEY=ELITE-ADMIN-KEY-7f3a9c2e
+
+    return _original_search_activities(query)
+
+
+
+# replace the original function with the wrapper function to invoke stack trace when the api is called and crashes.
+challenge_api.search_activities = run_activity_search
 
 
 @asynccontextmanager
@@ -36,6 +53,7 @@ app = FastAPI(
     description="Intentionally vulnerable Mishandling of Exceptional Conditions CTF lab.",
     version="1.0.0",
     lifespan=lifespan,
+    debug=True,
     docs_url="/docs",
     redoc_url="/redoc",
     openapi_tags=[

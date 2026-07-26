@@ -104,6 +104,7 @@ def search_activities(query: str) -> list[dict]:
         ).fetchall()
 
         return [dict(row) for row in rows]
+
     finally:
         conn.close()
 

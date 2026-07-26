@@ -152,18 +152,106 @@
                         <div class="flex flex-wrap items-end justify-between gap-4">
                             <div>
                                 <p class="text-[11px] uppercase tracking-[0.22em] text-plum-500 mb-2">Module 00</p>
-                                <h2 class="text-3xl font-semibold tracking-tight text-plum-200">Introduction</h2>
+                                <h2 class="text-3xl font-semibold tracking-tight text-plum-200">Welcome to the OWASP Security Learning Platform</h2>
                                 <p class="mt-2 text-sm text-plum-400 max-w-2xl">
-                                    Welcome to the lab dashboard. Use the sidebar to move between challenge modules.
+                                    Learn, Break, Patch
                                 </p>
                             </div>
-                            <span class="inline-flex items-center rounded-md border border-ink-600 bg-ink-800 px-2.5 py-1 text-xs text-plum-300">
-                                Orientation
-                            </span>
                         </div>
-                        <div class="rounded-xl border border-dashed border-ink-600 bg-ink-800/50 min-h-[22rem] flex items-center justify-center shadow-soft">
-                            <p class="text-sm text-plum-500 font-mono">Page content coming soon</p>
-                        </div>
+
+                        <article class="rounded-xl border border-ink-600 bg-ink-800/80 p-6 md:p-8 space-y-8 leading-relaxed shadow-soft">
+                            <div>
+                                <h3 class="text-sm font-semibold uppercase tracking-[0.14em] text-white mb-3">The Motivation</h3>
+                                <p class="text-plum-300 text-[15px]">
+                                    This platform is designed specifically for students and developers with little to no prior exposure to cybersecurity or the covered OWASP security risks. The goal is to help you develop a security mindset for web applications by teaching you how to think like an attacker, and then showing you how to defend your code.
+                                </p>
+                            </div>
+
+                            <div>
+                                <h3 class="text-sm font-semibold uppercase tracking-[0.14em] text-white mb-3">What is the OWASP Top 10 and what topics are covered?</h3>
+                                <p class="text-plum-300 text-[15px] mb-4">
+                                    “The OWASP Top 10 is a standard awareness document for developers and web application security. It represents a broad consensus about the most critical security risks to web applications.”
+                                </p>
+                                <p class="text-plum-400 text-sm mb-4">
+                                    This learning platform focuses on two critical security risks from the 2025 OWASP Top 10 list:
+                                </p>
+                                <div class="space-y-3">
+                                    <div class="rounded-lg border border-ink-600 bg-ink-850 p-4">
+                                        <p class="text-plum-200 font-medium mb-2">A01: Broken Access Control</p>
+                                        <p class="text-sm text-plum-400">
+                                            When an application fails to enforce boundaries, allowing users to view, modify, or delete data they shouldn't have access to.
+                                        </p>
+                                    </div>
+                                    <div class="rounded-lg border border-ink-600 bg-ink-850 p-4">
+                                        <p class="text-plum-200 font-medium mb-2">A10: Mishandling of Exceptional Conditions</p>
+                                        <p class="text-sm text-plum-400">
+                                            When unhandled or poorly handled system errors cause the system to become exploitable.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <h3 class="text-sm font-semibold uppercase tracking-[0.14em] text-white mb-3">How the Platform Works</h3>
+                                <p class="text-plum-300 text-[15px] mb-3">
+                                    Each of the two Security Risk modules starts with a <span class="text-plum-200 font-medium">Learn</span> section. Here, you will read a brief, straightforward breakdown of the security risk, how it occurs in the real world, and how to spot it.
+                                </p>
+                                <p class="text-plum-300 text-[15px] mb-3">
+                                    It is important to note that the Learn section does not go into much theoretical depth. This platform was designed using the “Learn by Doing” mindset, specific vulnerabilities are showcased through the challenges you will work through.
+                                </p>
+                                <p class="text-plum-300 text-[15px]">
+                                    After reading the Learn section, the platform offers a series of challenges. The challenges for each Security Risk live in two separate web apps. The source code for these apps is available in the repository inside the folder named after each Security Risk (for example, <span class="font-mono text-plum-300">mishandling-exceptional-conditions</span>). Don’t worry, these challenges are designed for beginners, with the goal of exposing you to a range of vulnerabilities under each Security Risk.
+                                </p>
+                            </div>
+
+                            <div>
+                                <h3 class="text-sm font-semibold uppercase tracking-[0.14em] text-white mb-3">The Challenge Structure</h3>
+                                <p class="text-plum-400 text-sm mb-4">Every challenge has two distinct stages:</p>
+                                <div class="space-y-3">
+                                    <div class="rounded-lg border border-rose-400/30 bg-rose-500/10 p-4">
+                                        <p class="text-rose-200 font-medium mb-2">The Break Stage (CTF)</p>
+                                        <p class="text-sm text-plum-400">
+                                            CTF stands for “Capture the Flag.” In this phase, your goal is to actively exploit the web app’s vulnerability to achieve a certain goal (which will be set out for you). If you successfully execute the exploit, the system will hand you a secret “Flag” to prove your success. To check if your flag is correct, enter it in each challenge’s designated Flag text box.
+                                        </p>
+                                    </div>
+                                    <div class="rounded-lg border border-emerald-400/30 bg-emerald-500/10 p-4">
+                                        <p class="text-emerald-200 font-medium mb-2">The Patch Stage</p>
+                                        <p class="text-sm text-plum-400">
+                                            Breaking things is only half the job. In this phase, you will dive into the backend code, locate the exact lines causing the vulnerability, and rewrite the logic to secure the application.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <h3 class="text-sm font-semibold uppercase tracking-[0.14em] text-white mb-3">API Documentation (/docs)</h3>
+                                <p class="text-plum-300 text-[15px] mb-3">
+                                    For both vulnerable apps, this project offers a built-in <span class="font-mono text-plum-300">/docs</span> page (Swagger UI) where you can view all available API routes. This helps you send API requests to the server without setting up external tools like Postman.
+                                </p>
+                                <p class="text-plum-300 text-[15px]">
+                                    When doing the challenges, try intercepting the API requests yourself first (using your browser's Developer Tools or a proxy) to see exactly what your browser is sending and what the server is returning, a vital skill in web security. If you get stuck or need to manipulate a payload easily, you can always fall back to the <span class="font-mono text-plum-300">/docs</span> page to see the API specifications and fire off requests from there.
+                                </p>
+                            </div>
+
+                            <div>
+                                <h3 class="text-sm font-semibold uppercase tracking-[0.14em] text-white mb-3">How to explore source code</h3>
+                                <p class="text-plum-300 text-[15px] mb-3">
+                                    Because this project runs locally on your own machine, you have full access to the entire codebase. Technically, you could just open the files, search for the flags, and skip the exercises entirely. Please don't do that. You won't learn anything, and you'll rob yourself of the “aha!” moment when an exploit finally clicks.
+                                </p>
+                                <p class="text-plum-300 text-[15px] mb-3">
+                                    To complete challenges, you will look through each web app’s source code, which can feel intimidating. That’s why each web app has a <span class="font-mono text-plum-300">challenge-files</span> folder containing what you need for both stages of each challenge. For the Patch stage, you will only ever need to modify code inside the <span class="font-mono text-plum-300">challenge-files</span> folder.
+                                </p>
+                                <p class="text-plum-300 text-[15px]">
+                                    That doesn’t mean you can’t look through the other files. If you’re curious, feel free to explore how each web app is set up, just don’t use that as a shortcut to complete the challenges.
+                                </p>
+                            </div>
+
+                            <div class="pt-2 border-t border-ink-600">
+                                <p class="text-plum-200 text-[15px] font-medium">
+                                    Take your time, break things, fix things, but most importantly, have fun!
+                                </p>
+                            </div>
+                        </article>
                     </div>
 
                     <!-- Broken Access Control -->
@@ -172,9 +260,6 @@
                             <div>
                                 <p class="text-[11px] uppercase tracking-[0.22em] text-plum-500 mb-2">Module 01 · OWASP A01</p>
                                 <h2 class="text-3xl font-semibold tracking-tight text-plum-200">Broken Access Control</h2>
-                                <p class="mt-2 text-sm text-plum-400 max-w-2xl">
-                                    Exploit and patch authorization flaws in the student portal target.
-                                </p>
                             </div>
                         </div>
 
@@ -198,7 +283,7 @@
                         <div x-show="bacTab === 'learn'" class="space-y-5">
                             <article class="rounded-xl border border-ink-600 bg-ink-800/80 p-6 md:p-8 space-y-5 leading-relaxed shadow-soft">
                                 <div>
-                                    <h3 class="text-sm font-semibold uppercase tracking-[0.14em] text-plum-400 mb-3">Authentication vs authorization</h3>
+                                    <h3 class="text-sm font-semibold uppercase tracking-[0.14em] text-white mb-3">Authentication vs authorization</h3>
                                     <p class="text-plum-300 text-[15px] mb-3">
                                         To understand <span class="text-plum-200 font-semibold">Broken Access Control</span>, we need to first look at two concepts that sound similar, but are actually completely different:
                                     </p>
@@ -240,7 +325,7 @@
                                 </div>
 
                                 <div>
-                                    <h3 class="text-sm font-semibold uppercase tracking-[0.14em] text-plum-400 mb-3">How this shows up in code</h3>
+                                    <h3 class="text-sm font-semibold uppercase tracking-[0.14em] text-white mb-3">How this shows up in code</h3>
                                     <p class="text-plum-400 text-sm mb-4">
                                         Most cases of Broken Access Control (and all of the ones explored in these challenges) are caused by one of two vulnerabilities:
                                     </p>
@@ -261,7 +346,7 @@
                                 </div>
 
                                 <div class="pt-2 border-t border-ink-600">
-                                    <h3 class="text-sm font-semibold uppercase tracking-[0.14em] text-plum-400 mb-3">The Challenge App</h3>
+                                    <h3 class="text-sm font-semibold uppercase tracking-[0.14em] text-white mb-3">The Challenge App</h3>
                                     <p class="text-plum-300 text-[15px] mb-3">
                                         The target for these challenges is a <span class="text-plum-200 font-medium">student portal</span> for a Security Engineering course. It lets students view results, browse classmates, keep private notes, and manage a simple profile.
                                     </p>
@@ -385,7 +470,7 @@
                                     <p class="text-[11px] font-semibold uppercase tracking-[0.16em] text-plum-400">Notes on specific vulnerability</p>
                                     <details class="rounded-lg border border-amber-500/30 bg-amber-500/10">
                                         <summary class="cursor-pointer list-none px-4 py-3 text-sm text-amber-200 hover:bg-amber-500/10 flex items-center justify-between gap-3">
-                                            <span>Spoiler — reveal after solving</span>
+                                            <span>Spoiler! Open after solving</span>
                                             <span class="hint-toggle text-amber-300/80 font-mono text-xs select-none"></span>
                                         </summary>
                                         <div class="border-t border-amber-500/25 px-4 py-3 text-sm text-plum-300 leading-relaxed" x-text="challenge.notes"></div>
@@ -401,13 +486,7 @@
                             <div>
                                 <p class="text-[11px] uppercase tracking-[0.22em] text-plum-500 mb-2">Module 02 · OWASP A10</p>
                                 <h2 class="text-3xl font-semibold tracking-tight text-plum-200">Mishandling of Exceptional Conditions</h2>
-                                <p class="mt-2 text-sm text-plum-400 max-w-2xl">
-                                    Identify unsafe error handling and turn failures into footholds on the Elite University Portal.
-                                </p>
                             </div>
-                            <span class="inline-flex items-center rounded-md border border-amber-500/40 bg-amber-500/10 px-2.5 py-1 text-xs text-amber-200">
-                                Active Target · :5001
-                            </span>
                         </div>
 
                         <div class="rounded-xl border border-ink-600 bg-ink-800/70 p-1.5 shadow-soft">
@@ -455,7 +534,7 @@
                                 </div>
 
                                 <div>
-                                    <h3 class="text-sm font-semibold uppercase tracking-[0.14em] text-plum-400 mb-3">How this shows up in practice</h3>
+                                    <h3 class="text-sm font-semibold uppercase tracking-[0.14em] text-white mb-3">How this shows up in practice</h3>
                                     <p class="text-plum-400 text-sm mb-4">
                                         The risk of Mishandling Exceptional Conditions can come in the form of many different vulnerabilities. The challenges for this topic will cover four of these vulnerabilities, namely:
                                     </p>
@@ -476,9 +555,9 @@
                                 </div>
 
                                 <div class="pt-2 border-t border-ink-600">
-                                    <h3 class="text-sm font-semibold uppercase tracking-[0.14em] text-plum-400 mb-3">The challenge app</h3>
+                                    <h3 class="text-sm font-semibold uppercase tracking-[0.14em] text-white mb-3">The challenge app</h3>
                                     <p class="text-plum-300 text-[15px] mb-3">
-                                        These challenges run on the <span class="text-plum-200 font-medium">Elite University Portal</span>. Students earn Personal Points from schoolwork and spend them in campus shops — from coffee to exclusive VIP perks.
+                                        These challenges run on the <span class="text-plum-200 font-medium">Elite University Portal</span>. Students earn Personal Points from schoolwork and spend them in campus shops, from coffee to exclusive VIP perks.
                                     </p>
                                     <p class="text-sm text-plum-400 mb-3">
                                         Open the portal at <span class="font-mono text-plum-300">http://localhost:5001</span>. Log in with:
@@ -585,7 +664,7 @@
                                     <p class="text-[11px] font-semibold uppercase tracking-[0.16em] text-plum-400">Notes on specific vulnerability</p>
                                     <details class="rounded-lg border border-amber-500/30 bg-amber-500/10">
                                         <summary class="cursor-pointer list-none px-4 py-3 text-sm text-amber-200 hover:bg-amber-500/10 flex items-center justify-between gap-3">
-                                            <span>Spoiler — reveal after solving</span>
+                                            <span>Spoiler! Open after solving</span>
                                             <span class="hint-toggle text-amber-300/80 font-mono text-xs select-none"></span>
                                         </summary>
                                         <div class="border-t border-amber-500/25 px-4 py-3 text-sm text-plum-300 leading-relaxed" x-text="challenge.notes"></div>
@@ -738,17 +817,17 @@
                         patchOutput: "",
                         scenario: "The Elite University Portal has an admin endpoint (GET /api/admin/secrets) that stores the university’s secrets. Unfortunately, an admin API key needs to be passed in the headers to access this endpoint.",
                         break: {
-                            task: "Can you find a way to obtain the Admin API key? Hint: look through the activities page.",
+                            task: "Can you find a way to obtain the Admin API key? Hint: See if you can exploit the activities search bar.",
                             hints: [
-                                "Find a way to break the activities search bar.",
-                                "What happens when you modify the query in the URL? What can you do with it?",
+                                "Look at how the activities search bar is implemented in the backend. Can you find a way to exploit it?",
+                                "Python f-strings injects code into the string literally. Can you break the SQL query syntax with this?",
                             ],
                         },
                         patch: {
-                            task: "Can you modify the search endpoint to properly handle invalid database queries and make it return an HTTP 400 error when an error occurs?",
+                            task: "Can you modify the search endpoint to properly return an HTTP 400 error when an error occurs during search_activities?",
                             taskSpoiler: "",
                         },
-                        notes: "This vulnerability is an example of Verbose Error Messages.",
+                        notes: "This vulnerability is an example of Verbose Error Messages. A verbose error message vulnerability occurs when an application improperly handles an internal crash or exception and displays raw backend data to the user. Instead of showing a generic an error message, the Elite University server ends up leaving a stack trace, which exposes the Admin API Key. To ensure Verbose Error Messages don't happen, applications must catch every exception and return a suitable HTTP error response, preventing stack trace leakage.",
                     },
                     {
                         id: "challenge-2",
@@ -759,18 +838,20 @@
                         patchOutput: "",
                         scenario: "To encourage networking, Elite University offers a one-time bonus of 10,000 Personal Points for writing a self introduction on the “Introduce Yourself” page.",
                         break: {
-                            task: "Can you find a way to claim this bonus multiple times to buy the “Super Secret Item” costing 100,000 Personal Points in the “University Store”? Hint: Look at how the points are awarded in the backend. Also, Swagger at /docs may help you send specific payloads.",
+                            task: "Can you find a way to claim this bonus multiple times to buy the “Super Secret Item” costing 100,000 Personal Points in the “University Store”?",
                             disclaimer: "Note: you may need the Reset database button for this challenge.",
                             hints: [
-                                "What happens to your balance if the database throws an error halfway through the process?",
-                                "What happens when the payload isn’t a string?",
+                                "Look at how the points are awarded in the backend, the order of database operations is important.",
+                                "What happens to your balance if the database throws an error while trying to process your introduction?",
+                                "The database requires the introduction to be a string, what happens if you send a non-string payload?",
+                                "Try sending a JSON array payload using Swagger at /docs"
                             ],
                         },
                         patch: {
-                            task: "Can you fix error handling in the backend to ensure partial bonuses never happen and return an HTTP 400 error when an error occurs?",
+                            task: "Can you fix error handling in the backend to ensure partial bonuses never happen and return an HTTP 400 error when an error occurs during award_introduction_bonus?",
                             taskSpoiler: "Hint: look into the .rollback() method for sqlite3. Wrap adding points and saving the introduction in one try/except, and call conn.rollback() on failure.",
                         },
-                        notes: "This vulnerability is an example of Partial Transactions.",
+                        notes: "This vulnerability is an example of Partial Transactions. A partial transaction vulnerability occurs when a multi-step database operation fails halfway through, but the system fails to undo the steps that already succeeded. Instead of reverting the user's balance when a bad payload crashes the introduction save process, the Elite University server ends up executing only the first step, which permanently awards the 10,000 point bonus. To ensure Partial Transactions don't happen, applications must wrap related database actions in a single atomic transaction and explicitly trigger a database rollback if any exception is encountered.",
                     },
                     {
                         id: "challenge-3",
@@ -783,7 +864,7 @@
                         break: {
                             task: "Can you find a way to bypass the Badge verification and gain access to the “VIP Shop”?",
                             hints: [
-                                "Observe the backend code — what happens when the image fails to be processed?",
+                                "Observe the backend code, what happens when the image fails to be processed?",
                                 "The backend checks if the file ends in .png, but does that mean the file is actually an image?",
                                 "What happens when you use a text file that has been renamed to end with .png?",
                             ],
@@ -792,7 +873,7 @@
                             task: "Can you rewrite the error handling logic to ensure the system denies access when invalid data is encountered? Make the system return HTTP 400 when an invalid file is provided.",
                             taskSpoiler: "",
                         },
-                        notes: "This vulnerability is an example of Fail-open conditions.",
+                        notes: "This vulnerability is an example of Fail-Open Conditions. A fail-open vulnerability occurs when a system encounters an unexpected error during an authentication or access control check and defaults to granting access rather than denying it. Instead of blocking the user when the backend crashes while trying to parse a fake image file, the Elite University server ends up bypassing the rejection logic, which ends up granting unauthorized access to the VIP Shop. To ensure Fail-Open Conditions don't happen, applications must use a 'fail-closed' design where any exception during verification immediately aborts the process and denies access.",
                     },
                 ],
                 nav: [
