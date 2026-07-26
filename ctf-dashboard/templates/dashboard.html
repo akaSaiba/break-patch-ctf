@@ -782,7 +782,7 @@
                             task: "Can you find a way to patch the vulnerable code so that unauthorized users get an HTTP 403 Forbidden response when trying to view someone else’s private notes?",
                             taskSpoiler: "Also ensure UUIDs are no longer leaked on the Classmates tab.",
                         },
-                        notes: "This scenario demonstrates Broken Object Level Authorization (BOLA) enabled by information disclosure. The developer mistakenly believed that using unguessable UUIDs replaced the need for object-level access control. When those UUIDs were leaked through a different endpoint, the entire security model collapsed, allowing you to view a peer’s private notes and achieve Horizontal Privilege Escalation.",
+                        notes: "This scenario demonstrates Broken Object Level Authorization (BOLA) enabled by information disclosure. The use of unguessable UUIDs does not replace the need for object-level access control. Obtaining the UUIDs through a different endpoint allowed you to view a peer’s private notes and achieve Horizontal Privilege Escalation.",
                     },
                     {
                         id: "challenge-4",
