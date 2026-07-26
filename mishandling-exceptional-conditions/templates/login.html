@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in - Elite University Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex min-h-screen items-center justify-center bg-slate-100 p-6">
+    <form method="post" class="w-full max-w-md rounded-2xl bg-white p-8 shadow-lg">
+        <div class="mb-7">
+            <p class="text-sm font-semibold uppercase tracking-wider text-purple-700">Elite University</p>
+            <h1 class="mt-1 text-3xl font-semibold text-slate-900">Student Portal</h1>
+            <p class="mt-2 text-sm text-slate-500">Sign in to earn and spend Personal Points.</p>
+        </div>
+        {% if error %}<p class="mb-4 rounded-lg bg-red-50 p-3 text-sm text-red-700">{{ error }}</p>{% endif %}
+        <label class="mb-4 block text-sm font-medium text-slate-700">Username
+            <input name="username" required class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:border-purple-600" />
+        </label>
+        <label class="mb-6 block text-sm font-medium text-slate-700">Password
+            <input type="password" name="password" required class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:border-purple-600" />
+        </label>
+        <button class="w-full rounded-lg bg-purple-900 px-4 py-2.5 font-medium text-white hover:bg-purple-800">Sign in</button>
+        <p class="mt-5 text-center text-xs text-slate-400">CTF account: ctfuser / ctfpassword</p>
+    </form>
+</body>
+</html>

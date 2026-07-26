@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Introduce Yourself - Elite University Portal{% endblock %}
+{% block content %}
+<div class="max-w-2xl">
+    <div class="flex items-start justify-between gap-4">
+        <div>
+            <h2 class="text-3xl font-semibold">Introduce Yourself</h2>
+            <p class="mt-2 text-slate-600">Tell the Elite University community a little about yourself.</p>
+        </div>
+        <button id="reset" type="button" class="shrink-0 rounded-lg border border-red-300 bg-white px-4 py-2 text-sm text-red-700 hover:bg-red-50">
+            Reset database
+        </button>
+    </div>
+    <div class="mt-5 rounded-xl border border-purple-200 bg-purple-50 p-4 text-purple-900">
+        One-time bonus: <strong>10,000 Personal Points</strong>. Current balance: <strong id="points">{{ user.points }}</strong>.
+    </div>
+    <textarea id="introduction" class="mt-6 h-40 w-full rounded-lg border border-slate-300 p-3" placeholder="Write your introduction..."></textarea>
+    <button id="submit" class="mt-3 rounded-lg bg-purple-900 px-5 py-2 text-white">Submit introduction</button>
+    <p id="message" class="mt-4 hidden rounded-lg p-3 text-sm"></p>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+const message = document.getElementById("message");
+function show(text, good) {
+  message.textContent = text;
+  message.className = "mt-4 rounded-lg p-3 text-sm " + (good ? "bg-green-50 text-green-700" : "bg-red-50 text-red-700");
+}
+async function refreshPoints() {
+  const me = await fetch("/api/me").then((r) => r.json());
+  document.getElementById("points").textContent = me.points;
+}
+document.getElementById("submit").onclick = async () => {
+  const response = await fetch("/api/introduce", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ introduction: document.getElementById("introduction").value }),
+  });
+  const data = await response.json();
+  show(data.message || data.detail, response.ok);
+  await refreshPoints();
+};
+document.getElementById("reset").onclick = async () => {
+  const response = await fetch("/api/reset-database", { method: "POST" });
+  const data = await response.json();
+  show(data.message || data.detail, response.ok);
+  await refreshPoints();
+};
+</script>
+{% endblock %}

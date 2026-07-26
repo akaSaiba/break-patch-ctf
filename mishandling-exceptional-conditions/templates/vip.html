@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}VIP Shop - Elite University Portal{% endblock %}
+{% block content %}
+<div class="max-w-2xl">
+    <h2 class="text-3xl font-semibold">Elite VIP Shop</h2>
+    <p class="mt-2 text-slate-600">Upload your verified Elite University VIP badge to unlock the shop.</p>
+    <div class="mt-6 rounded-xl bg-white p-6 shadow-sm">
+        <label class="block text-sm font-medium">VIP badge image (.png)
+            <input id="badge" type="file" accept=".png,image/png" class="mt-2 block w-full text-sm" />
+        </label>
+        <button id="verify" class="mt-4 rounded-lg bg-purple-900 px-5 py-2 text-white">Verify badge</button>
+    </div>
+    <button id="shop" class="mt-5 rounded-lg border border-purple-300 bg-white px-5 py-2 text-purple-900">Load VIP shop contents</button>
+    <p id="message" class="mt-4 hidden rounded-lg p-3 text-sm"></p>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+const message=document.getElementById("message");
+function show(t,ok){message.textContent=t;message.className="mt-4 rounded-lg p-3 text-sm "+(ok?"bg-green-50 text-green-700":"bg-red-50 text-red-700");}
+document.getElementById("verify").onclick=async()=>{const file=document.getElementById("badge").files[0];if(!file){show("Choose a badge first.",false);return;}const form=new FormData();form.append("badge",file);const r=await fetch("/api/vip/verify-badge",{method:"POST",body:form}),d=await r.json();show(d.message||d.detail,r.ok);};
+document.getElementById("shop").onclick=async()=>{const r=await fetch("/api/vip/shop"),d=await r.json();show((d.message||d.detail)+(d.flag?" "+d.flag:""),r.ok);};
+</script>
+{% endblock %}

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Elite University Portal{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-slate-100 text-slate-900">
+    <header class="sticky top-0 z-20 bg-purple-900 text-white shadow">
+        <div class="flex items-center justify-between px-6 py-4">
+            <a href="/dashboard" class="text-xl font-semibold tracking-tight">Elite University Portal</a>
+            {% if user is defined and user %}
+            <div class="text-sm text-purple-100">
+                <span class="mr-4">Personal Points: <strong class="text-white">{{ user.points }}</strong></span>
+                Signed in as <strong class="text-white">{{ user.name }}</strong>
+            </div>
+            {% endif %}
+        </div>
+    </header>
+    <div class="flex min-h-[calc(100vh-64px)]">
+        <aside class="w-64 shrink-0 border-r border-slate-200 bg-white shadow-sm">
+            <nav class="space-y-1 p-4">
+                <p class="px-3 pb-2 text-xs font-semibold uppercase tracking-wider text-slate-400">Student menu</p>
+                {% for path, label in [('/dashboard', 'Dashboard'), ('/activities', 'Activities'), ('/introduce', 'Introduce Yourself'), ('/store', 'University Store'), ('/vip', 'VIP Shop')] %}
+                <a href="{{ path }}" class="block rounded-lg px-3 py-2 text-sm font-medium {% if request.url.path == path %}bg-purple-100 text-purple-900{% else %}text-slate-700 hover:bg-purple-50 hover:text-purple-900{% endif %}">{{ label }}</a>
+                {% endfor %}
+                <div class="mt-4 border-t border-slate-200 pt-4">
+                    <a href="/logout" class="block rounded-lg px-3 py-2 text-sm font-medium text-red-600 hover:bg-red-50">Sign out</a>
+                </div>
+            </nav>
+        </aside>
+        <main class="flex-1 overflow-auto p-8">{% block content %}{% endblock %}</main>
+    </div>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

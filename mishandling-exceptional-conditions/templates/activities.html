@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Activities - Elite University Portal{% endblock %}
+{% block content %}
+<div class="max-w-3xl">
+    <h2 class="text-3xl font-semibold">Campus Activities</h2>
+    <p class="mt-2 text-slate-600">Search approved activities and their Personal Points rewards.</p>
+    <div class="mt-6 flex gap-2">
+        <input id="query" class="flex-1 rounded-lg border border-slate-300 px-3 py-2" placeholder="Search activities" />
+        <button id="search" class="rounded-lg bg-purple-900 px-5 py-2 text-white">Search</button>
+    </div>
+    <p id="error" class="mt-4 hidden rounded-lg bg-red-50 p-3 text-sm text-red-700"></p>
+    <div id="results" class="mt-5 space-y-3"></div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+async function search() {
+  const q = document.getElementById("query").value;
+  const error = document.getElementById("error"), results = document.getElementById("results");
+  error.classList.add("hidden"); results.innerHTML = "";
+  const response = await fetch("/api/activities/search?q=" + encodeURIComponent(q));
+  const data = await response.json();
+  if (!response.ok) { error.textContent = data.detail || "Search failed"; error.classList.remove("hidden"); return; }
+  if (!data.length) results.innerHTML = '<p class="text-slate-500">No activities found.</p>';
+  data.forEach(item => results.innerHTML += `<div class="rounded-xl bg-white p-4 shadow-sm"><strong>${item.title}</strong><span class="float-right text-purple-800">${item.points} points</span></div>`);
+}
+document.getElementById("search").onclick = search;
+document.getElementById("query").addEventListener("keydown", e => { if (e.key === "Enter") search(); });
+search();
+</script>
+{% endblock %}

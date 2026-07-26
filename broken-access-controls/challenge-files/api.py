@@ -9,7 +9,7 @@ from database import (
     get_results_by_user_id,
     get_user_by_id,
     make_session_token,
-    mass_update_user,
+    update_user_profile,
     parse_session_token,
     verify_credentials,
 )
@@ -221,6 +221,7 @@ def api_notes(uuid: str, user: dict = Depends(get_current_user)):
 )
 def api_get_profile(user: dict = Depends(get_current_user)):
     """Return the currently authenticated user's profile."""
+    
     return user
 
 
@@ -239,10 +240,11 @@ def api_put_profile(
     user: dict = Depends(get_current_user),
 ):
     """Update the current user's profile with the given payload."""
+    
     logged_in_id = user["user_id"]
 
     try:
-        updated = mass_update_user(logged_in_id, payload)
+        updated = update_user_profile(logged_in_id, payload)
     except sqlite3.IntegrityError as error:
         raise HTTPException(status_code=400, detail=f"Invalid profile update: {error}") from error
 

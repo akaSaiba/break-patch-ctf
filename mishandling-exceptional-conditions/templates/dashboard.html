@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - Elite University Portal{% endblock %}
+{% block content %}
+<div class="max-w-4xl">
+    <h2 class="text-3xl font-semibold">Welcome back, {{ user.name }}</h2>
+    <p class="mt-2 text-slate-600">Elite University rewards students who contribute to our campus community.</p>
+    <div class="mt-8 rounded-2xl bg-purple-900 p-7 text-white shadow">
+        <p class="text-sm font-medium uppercase tracking-wider text-purple-200">Personal Points balance</p>
+        <p class="mt-2 text-5xl font-bold">{{ user.points }}</p>
+        <p class="mt-3 text-sm text-purple-100">Earn points through university activities and spend them in the University Store.</p>
+    </div>
+    <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <a href="/activities" class="rounded-xl bg-white p-5 shadow-sm hover:ring-2 hover:ring-purple-300">Browse activities</a>
+        <a href="/introduce" class="rounded-xl bg-white p-5 shadow-sm hover:ring-2 hover:ring-purple-300">Introduce yourself</a>
+        <a href="/store" class="rounded-xl bg-white p-5 shadow-sm hover:ring-2 hover:ring-purple-300">University Store</a>
+        <a href="/vip" class="rounded-xl bg-white p-5 shadow-sm hover:ring-2 hover:ring-purple-300">Visit VIP Shop</a>
+    </div>
+</div>
+{% endblock %}

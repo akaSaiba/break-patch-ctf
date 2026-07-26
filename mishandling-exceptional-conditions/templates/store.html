@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}University Store - Elite University Portal{% endblock %}
+{% block content %}
+<div class="max-w-4xl">
+    <div>
+        <h2 class="text-3xl font-semibold">University Store</h2>
+        <p class="mt-2 text-slate-600">Spend your Personal Points on campus rewards.</p>
+    </div>
+    <p id="message" class="mt-5 hidden rounded-lg p-3 text-sm"></p>
+    <div id="items" class="mt-6 grid gap-4 sm:grid-cols-2"></div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+const message = document.getElementById("message");
+function show(text, good) {
+  message.textContent = text;
+  message.className = "mt-5 rounded-lg p-3 text-sm " + (good ? "bg-green-50 text-green-700" : "bg-red-50 text-red-700");
+}
+async function load() {
+  const items = await fetch("/api/store/items").then((r) => r.json());
+  document.getElementById("items").innerHTML = items.map((i) => `
+    <div class="rounded-xl bg-white p-5 shadow-sm">
+      <h3 class="font-semibold">${i.name}</h3>
+      <p class="mt-1 text-purple-800">${i.cost} points</p>
+      <button onclick="buy(${i.id})" class="mt-4 rounded-lg bg-purple-900 px-4 py-2 text-sm text-white">Purchase</button>
+    </div>
+  `).join("");
+}
+async function buy(id) {
+  const r = await fetch("/api/store/purchase", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ item_id: id }),
+  });
+  const data = await r.json();
+  show((data.message || data.detail) + (data.flag ? " " + data.flag : ""), r.ok);
+}
+load();
+</script>
+{% endblock %}

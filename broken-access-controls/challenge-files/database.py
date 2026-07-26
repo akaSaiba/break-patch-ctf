@@ -117,12 +117,14 @@ def parse_session_token(session_token: str | None) -> int | None:
 
 def get_results_by_user_id(user_id: int) -> list[dict] | None:
     """Return assignment results for a user_id, or None if the user does not exist."""
+    
     conn = get_connection()
     try:
         exists = conn.execute(
             "SELECT 1 FROM users WHERE user_id = ?",
             (user_id,),
         ).fetchone()
+
         if exists is None:
             return None
 
@@ -135,6 +137,7 @@ def get_results_by_user_id(user_id: int) -> list[dict] | None:
             """,
             (user_id,),
         ).fetchall()
+
         return [dict(row) for row in rows]
     finally:
         conn.close()
@@ -222,7 +225,7 @@ def get_notes_by_uuid(user_uuid: str) -> list[dict] | None:
         conn.close()
 
 
-def mass_update_user(user_id: int, payload: dict) -> dict | None:
+def update_user_profile(user_id: int, payload: dict) -> dict | None:
     """Update a user's information in the database."""
 
     user = get_user_by_id(user_id)
@@ -235,13 +238,13 @@ def mass_update_user(user_id: int, payload: dict) -> dict | None:
 
     user.update(updates)
 
-    set_clause = ", ".join(f"{column} = ?" for column in updates)
+    profile_update = ", ".join(f"{column} = ?" for column in updates)
     values = list(updates.values()) + [user_id]
 
     conn = get_connection()
     try:
         conn.execute(
-            f"UPDATE users SET {set_clause} WHERE user_id = ?",
+            f"UPDATE users SET {profile_update} WHERE user_id = ?",
             values,
         )
         conn.commit()

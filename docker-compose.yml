@@ -8,6 +8,15 @@ services:
       - ./broken-access-controls:/app
     command: uvicorn main:app --host 0.0.0.0 --port 5000 --reload
 
+  mishandling-exceptional-conditions:
+    container_name: mishandling-exceptional-conditions
+    build: ./mishandling-exceptional-conditions
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./mishandling-exceptional-conditions:/app
+    command: uvicorn main:app --host 0.0.0.0 --port 5001 --reload
+
   ctf-dashboard:
     container_name: ctf-dashboard
     build: ./ctf-dashboard
@@ -18,3 +27,4 @@ services:
     command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
     depends_on:
       - broken-access-controls
+      - mishandling-exceptional-conditions
