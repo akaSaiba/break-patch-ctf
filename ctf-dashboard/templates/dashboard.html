@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" class="bg-ink-900">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -40,38 +41,54 @@
         };
     </script>
     <style>
-        html, body {
+        html,
+        body {
             background-color: #1a1526;
         }
+
         body {
             background-image:
                 radial-gradient(ellipse 70% 45% at 8% -8%, rgba(126, 99, 184, 0.22), transparent 55%),
                 radial-gradient(ellipse 55% 40% at 100% 0%, rgba(88, 70, 140, 0.18), transparent 50%),
                 linear-gradient(180deg, #1f1830 0%, #1a1526 50%, #161222 100%);
         }
+
         .grid-overlay {
             background-image:
                 linear-gradient(rgba(180, 154, 230, 0.035) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(180, 154, 230, 0.035) 1px, transparent 1px);
             background-size: 28px 28px;
         }
-        [x-cloak] { display: none !important; }
-        details > summary { list-style: none; }
-        details > summary::-webkit-details-marker { display: none; }
-        details[open] > summary .hint-toggle::before { content: "−"; }
-        details:not([open]) > summary .hint-toggle::before { content: "+"; }
+
+        [x-cloak] {
+            display: none !important;
+        }
+
+        details>summary {
+            list-style: none;
+        }
+
+        details>summary::-webkit-details-marker {
+            display: none;
+        }
+
+        details[open]>summary .hint-toggle::before {
+            content: "−";
+        }
+
+        details:not([open])>summary .hint-toggle::before {
+            content: "+";
+        }
     </style>
 </head>
-<body
-    class="min-h-screen text-plum-200 font-display antialiased"
-    x-data="dashboardApp('{{ initial_page }}')"
-    x-cloak
->
+
+<body class="min-h-screen text-plum-200 font-display antialiased" x-data="dashboardApp('{{ initial_page }}')" x-cloak>
     <div class="min-h-screen grid-overlay">
         <header class="sticky top-0 z-30 border-b border-ink-600/80 bg-ink-950/90 backdrop-blur-md">
             <div class="px-5 py-3.5 flex items-center justify-between gap-4">
                 <div class="flex items-center gap-3 min-w-0">
-                    <div class="h-9 w-9 rounded-lg bg-gradient-to-br from-plum-500 to-purple-900 shadow-soft flex items-center justify-center shrink-0">
+                    <div
+                        class="h-9 w-9 rounded-lg bg-gradient-to-br from-plum-500 to-purple-900 shadow-soft flex items-center justify-center shrink-0">
                         <span class="font-mono text-xs font-bold tracking-tight text-white">CTF</span>
                     </div>
                     <div class="min-w-0">
@@ -80,11 +97,13 @@
                     </div>
                 </div>
                 <div class="hidden sm:flex items-center gap-2 text-xs">
-                    <span class="inline-flex items-center gap-1.5 rounded-md border border-ink-600 bg-ink-800/80 px-2.5 py-1 text-plum-300">
+                    <span
+                        class="inline-flex items-center gap-1.5 rounded-md border border-ink-600 bg-ink-800/80 px-2.5 py-1 text-plum-300">
                         <span class="h-1.5 w-1.5 rounded-full bg-emerald-400/90 animate-pulse"></span>
                         Lab Online
                     </span>
-                    <span class="inline-flex items-center rounded-md border border-ink-600 bg-ink-850 px-2.5 py-1 font-mono text-plum-400">
+                    <span
+                        class="inline-flex items-center rounded-md border border-ink-600 bg-ink-850 px-2.5 py-1 font-mono text-plum-400">
                         OWASP · A01–A10
                     </span>
                 </div>
@@ -94,49 +113,38 @@
         <div class="flex min-h-[calc(100vh-65px)]">
             <aside class="w-64 shrink-0 border-r border-ink-600/80 bg-ink-950">
                 <nav class="p-4 space-y-1">
-                    <p class="px-3 pb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-plum-500">Resources</p>
+                    <p class="px-3 pb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-plum-500">Resources
+                    </p>
 
                     <template x-for="item in nav" :key="item.id">
                         <div>
                             <!-- Plain link -->
-                            <button
-                                x-show="!item.children"
-                                type="button"
-                                @click="go(item.id)"
+                            <button x-show="!item.children" type="button" @click="go(item.id)"
                                 class="w-full text-left rounded-lg px-3 py-2 text-sm font-medium transition-colors border border-transparent"
                                 :class="page === item.id
                                     ? 'border-plum-500/70 text-plum-200 bg-ink-800/70'
                                     : 'text-plum-400 hover:border-ink-500 hover:text-plum-200'"
-                                x-text="item.label"
-                            ></button>
+                                x-text="item.label"></button>
 
                             <!-- Dropdown module -->
                             <div x-show="item.children" class="space-y-1">
-                                <button
-                                    type="button"
-                                    @click="toggleNav(item.id)"
+                                <button type="button" @click="toggleNav(item.id)"
                                     class="w-full text-left rounded-lg px-3 py-2 text-sm font-medium transition-colors border border-transparent flex items-center justify-between gap-2"
                                     :class="page === item.id
                                         ? 'border-plum-500/70 text-plum-200 bg-ink-800/70'
-                                        : 'text-plum-400 hover:border-ink-500 hover:text-plum-200'"
-                                >
+                                        : 'text-plum-400 hover:border-ink-500 hover:text-plum-200'">
                                     <span class="truncate" x-text="item.label"></span>
-                                    <span
-                                        class="shrink-0 text-plum-500 font-mono text-xs transition-transform"
-                                        :class="openNav[item.id] ? 'rotate-90' : ''"
-                                    >›</span>
+                                    <span class="shrink-0 text-plum-500 font-mono text-xs transition-transform"
+                                        :class="openNav[item.id] ? 'rotate-90' : ''">›</span>
                                 </button>
                                 <div x-show="openNav[item.id]" class="ml-2 pl-2 border-l border-ink-700 space-y-0.5">
                                     <template x-for="child in item.children" :key="item.id + '-' + child.id">
-                                        <button
-                                            type="button"
-                                            @click="goSection(item.id, child.id)"
+                                        <button type="button" @click="goSection(item.id, child.id)"
                                             class="w-full text-left rounded-lg px-3 py-1.5 text-sm transition-colors border border-transparent"
                                             :class="page === item.id && activeTabFor(item.id) === child.id
                                                 ? 'border-plum-500/50 text-plum-200 bg-ink-800/50'
                                                 : 'text-plum-500 hover:border-ink-600 hover:text-plum-300'"
-                                            x-text="child.label"
-                                        ></button>
+                                            x-text="child.label"></button>
                                     </template>
                                 </div>
                             </div>
@@ -152,97 +160,149 @@
                         <div class="flex flex-wrap items-end justify-between gap-4">
                             <div>
                                 <p class="text-[11px] uppercase tracking-[0.22em] text-plum-500 mb-2">Module 00</p>
-                                <h2 class="text-3xl font-semibold tracking-tight text-plum-200">Welcome to the OWASP Security Learning Platform</h2>
+                                <h2 class="text-3xl font-semibold tracking-tight text-plum-200">Welcome to the OWASP
+                                    Security Learning Platform</h2>
                                 <p class="mt-2 text-sm text-plum-400 max-w-2xl">
                                     Learn, Break, Patch
                                 </p>
                             </div>
                         </div>
 
-                        <article class="rounded-xl border border-ink-600 bg-ink-800/80 p-6 md:p-8 space-y-8 leading-relaxed shadow-soft">
+                        <article
+                            class="rounded-xl border border-ink-600 bg-ink-800/80 p-6 md:p-8 space-y-8 leading-relaxed shadow-soft">
                             <div>
-                                <h3 class="text-sm font-semibold uppercase tracking-[0.14em] text-white mb-3">The Motivation</h3>
+                                <h3 class="text-sm font-semibold uppercase tracking-[0.14em] text-white mb-3">The
+                                    Motivation</h3>
                                 <p class="text-plum-300 text-[15px]">
-                                    This platform is designed specifically for students and developers with little to no prior exposure to cybersecurity or the covered OWASP security risks. The goal is to help you develop a security mindset for web applications by teaching you how to think like an attacker, and then showing you how to defend your code.
+                                    This platform is designed specifically for students and developers with little to no
+                                    prior exposure to cybersecurity or the covered OWASP security risks. The goal is to
+                                    help you develop a security mindset for web applications by teaching you how to
+                                    think like an attacker, and then showing you how to defend your code.
                                 </p>
                             </div>
 
                             <div>
-                                <h3 class="text-sm font-semibold uppercase tracking-[0.14em] text-white mb-3">What is the OWASP Top 10 and what topics are covered?</h3>
+                                <h3 class="text-sm font-semibold uppercase tracking-[0.14em] text-white mb-3">What is
+                                    the OWASP Top 10 and what topics are covered?</h3>
                                 <p class="text-plum-300 text-[15px] mb-4">
-                                    “The OWASP Top 10 is a standard awareness document for developers and web application security. It represents a broad consensus about the most critical security risks to web applications.”
+                                    “The OWASP Top 10 is a standard awareness document for developers and web
+                                    application security. It represents a broad consensus about the most critical
+                                    security risks to web applications.”
                                 </p>
                                 <p class="text-plum-400 text-sm mb-4">
-                                    This learning platform focuses on two critical security risks from the 2025 OWASP Top 10 list:
+                                    This learning platform focuses on two critical security risks from the 2025 OWASP
+                                    Top 10 list:
                                 </p>
                                 <div class="space-y-3">
                                     <div class="rounded-lg border border-ink-600 bg-ink-850 p-4">
                                         <p class="text-plum-200 font-medium mb-2">A01: Broken Access Control</p>
                                         <p class="text-sm text-plum-400">
-                                            When an application fails to enforce boundaries, allowing users to view, modify, or delete data they shouldn't have access to.
+                                            When an application fails to enforce boundaries, allowing users to view,
+                                            modify, or delete data they shouldn't have access to.
                                         </p>
                                     </div>
                                     <div class="rounded-lg border border-ink-600 bg-ink-850 p-4">
-                                        <p class="text-plum-200 font-medium mb-2">A10: Mishandling of Exceptional Conditions</p>
+                                        <p class="text-plum-200 font-medium mb-2">A10: Mishandling of Exceptional
+                                            Conditions</p>
                                         <p class="text-sm text-plum-400">
-                                            When unhandled or poorly handled system errors cause the system to become exploitable.
+                                            When unhandled or poorly handled system errors cause the system to become
+                                            exploitable.
                                         </p>
                                     </div>
                                 </div>
                             </div>
 
                             <div>
-                                <h3 class="text-sm font-semibold uppercase tracking-[0.14em] text-white mb-3">How the Platform Works</h3>
+                                <h3 class="text-sm font-semibold uppercase tracking-[0.14em] text-white mb-3">How the
+                                    Platform Works</h3>
                                 <p class="text-plum-300 text-[15px] mb-3">
-                                    Each of the two Security Risk modules starts with a <span class="text-plum-200 font-medium">Learn</span> section. Here, you will read a brief, straightforward breakdown of the security risk, how it occurs in the real world, and how to spot it.
+                                    Each of the two Security Risk modules starts with a <span
+                                        class="text-plum-200 font-medium">Learn</span> section. Here, you will read a
+                                    brief, straightforward breakdown of the security risk, how it occurs in the real
+                                    world, and how to spot it.
                                 </p>
                                 <p class="text-plum-300 text-[15px] mb-3">
-                                    It is important to note that the Learn section does not go into much theoretical depth. This platform was designed using the “Learn by Doing” mindset, specific vulnerabilities are showcased through the challenges you will work through.
+                                    It is important to note that the Learn section does not go into much theoretical
+                                    depth. This platform was designed using the “Learn by Doing” mindset, specific
+                                    vulnerabilities are showcased through the challenges you will work through.
                                 </p>
                                 <p class="text-plum-300 text-[15px]">
-                                    After reading the Learn section, the platform offers a series of challenges. The challenges for each Security Risk live in two separate web apps. The source code for these apps is available in the repository inside the folder named after each Security Risk (for example, <span class="font-mono text-plum-300">mishandling-exceptional-conditions</span>). Don’t worry, these challenges are designed for beginners, with the goal of exposing you to a range of vulnerabilities under each Security Risk.
+                                    After reading the Learn section, the platform offers a series of challenges. The
+                                    challenges for each Security Risk live in two separate web apps. The source code for
+                                    these apps is available in the repository inside the folder named after each
+                                    Security Risk (for example, <span
+                                        class="font-mono text-plum-300">mishandling-exceptional-conditions</span>).
+                                    Don’t worry, these challenges are designed for beginners, with the goal of exposing
+                                    you to a range of vulnerabilities under each Security Risk.
                                 </p>
                             </div>
 
                             <div>
-                                <h3 class="text-sm font-semibold uppercase tracking-[0.14em] text-white mb-3">The Challenge Structure</h3>
+                                <h3 class="text-sm font-semibold uppercase tracking-[0.14em] text-white mb-3">The
+                                    Challenge Structure</h3>
                                 <p class="text-plum-400 text-sm mb-4">Every challenge has two distinct stages:</p>
                                 <div class="space-y-3">
                                     <div class="rounded-lg border border-rose-400/30 bg-rose-500/10 p-4">
                                         <p class="text-rose-200 font-medium mb-2">The Break Stage (CTF)</p>
                                         <p class="text-sm text-plum-400">
-                                            CTF stands for “Capture the Flag.” In this phase, your goal is to actively exploit the web app’s vulnerability to achieve a certain goal (which will be set out for you). If you successfully execute the exploit, the system will hand you a secret “Flag” to prove your success. To check if your flag is correct, enter it in each challenge’s designated Flag text box.
+                                            CTF stands for “Capture the Flag.” In this phase, your goal is to actively
+                                            exploit the web app’s vulnerability to achieve a certain goal (which will be
+                                            set out for you). If you successfully execute the exploit, the system will
+                                            hand you a secret “Flag” to prove your success. To check if your flag is
+                                            correct, enter it in each challenge’s designated Flag text box.
                                         </p>
                                     </div>
                                     <div class="rounded-lg border border-emerald-400/30 bg-emerald-500/10 p-4">
                                         <p class="text-emerald-200 font-medium mb-2">The Patch Stage</p>
                                         <p class="text-sm text-plum-400">
-                                            Breaking things is only half the job. In this phase, you will dive into the backend code, locate the exact lines causing the vulnerability, and rewrite the logic to secure the application.
+                                            Breaking things is only half the job. In this phase, you will dive into the
+                                            backend code, locate the exact lines causing the vulnerability, and rewrite
+                                            the logic to secure the application.
                                         </p>
                                     </div>
                                 </div>
                             </div>
 
                             <div>
-                                <h3 class="text-sm font-semibold uppercase tracking-[0.14em] text-white mb-3">API Documentation (/docs)</h3>
+                                <h3 class="text-sm font-semibold uppercase tracking-[0.14em] text-white mb-3">API
+                                    Documentation (/docs)</h3>
                                 <p class="text-plum-300 text-[15px] mb-3">
-                                    For both vulnerable apps, this project offers a built-in <span class="font-mono text-plum-300">/docs</span> page (Swagger UI) where you can view all available API routes. This helps you send API requests to the server without setting up external tools like Postman.
+                                    For both vulnerable apps, this project offers a built-in <span
+                                        class="font-mono text-plum-300">/docs</span> page (Swagger UI) where you can
+                                    view all available API routes. This helps you send API requests to the server
+                                    without setting up external tools like Postman.
                                 </p>
                                 <p class="text-plum-300 text-[15px]">
-                                    When doing the challenges, try intercepting the API requests yourself first (using your browser's Developer Tools or a proxy) to see exactly what your browser is sending and what the server is returning, a vital skill in web security. If you get stuck or need to manipulate a payload easily, you can always fall back to the <span class="font-mono text-plum-300">/docs</span> page to see the API specifications and fire off requests from there.
+                                    When doing the challenges, try intercepting the API requests yourself first (using
+                                    your browser's Developer Tools or a proxy) to see exactly what your browser is
+                                    sending and what the server is returning, a vital skill in web security. If you get
+                                    stuck or need to manipulate a payload easily, you can always fall back to the <span
+                                        class="font-mono text-plum-300">/docs</span> page to see the API specifications
+                                    and fire off requests from there.
                                 </p>
                             </div>
 
                             <div>
-                                <h3 class="text-sm font-semibold uppercase tracking-[0.14em] text-white mb-3">How to explore source code</h3>
+                                <h3 class="text-sm font-semibold uppercase tracking-[0.14em] text-white mb-3">How to
+                                    explore source code</h3>
                                 <p class="text-plum-300 text-[15px] mb-3">
-                                    Because this project runs locally on your own machine, you have full access to the entire codebase. Technically, you could just open the files, search for the flags, and skip the exercises entirely. Please don't do that. You won't learn anything, and you'll rob yourself of the “aha!” moment when an exploit finally clicks.
+                                    Because this project runs locally on your own machine, you have full access to the
+                                    entire codebase. Technically, you could just open the files, search for the flags,
+                                    and skip the exercises entirely. Please don't do that. You won't learn anything, and
+                                    you'll rob yourself of the “aha!” moment when an exploit finally clicks.
                                 </p>
                                 <p class="text-plum-300 text-[15px] mb-3">
-                                    To complete challenges, you will look through each web app’s source code, which can feel intimidating. That’s why each web app has a <span class="font-mono text-plum-300">challenge-files</span> folder containing what you need for both stages of each challenge. For the Patch stage, you will only ever need to modify code inside the <span class="font-mono text-plum-300">challenge-files</span> folder.
+                                    To complete challenges, you will look through each web app’s source code, which can
+                                    feel intimidating. That’s why each web app has a <span
+                                        class="font-mono text-plum-300">challenge-files</span> folder containing what
+                                    you need for both stages of each challenge. For the Patch stage, you will only ever
+                                    need to modify code inside the <span
+                                        class="font-mono text-plum-300">challenge-files</span> folder.
                                 </p>
                                 <p class="text-plum-300 text-[15px]">
-                                    That doesn’t mean you can’t look through the other files. If you’re curious, feel free to explore how each web app is set up, just don’t use that as a shortcut to complete the challenges.
+                                    That doesn’t mean you can’t look through the other files. If you’re curious, feel
+                                    free to explore how each web app is set up, just don’t use that as a shortcut to
+                                    complete the challenges.
                                 </p>
                             </div>
 
@@ -255,56 +315,67 @@
                     </div>
 
                     <!-- Broken Access Control -->
-                    <div x-show="page === 'broken-access-control'" x-transition.opacity.duration.150ms class="space-y-6">
+                    <div x-show="page === 'broken-access-control'" x-transition.opacity.duration.150ms
+                        class="space-y-6">
                         <div class="flex flex-wrap items-end justify-between gap-4">
                             <div>
-                                <p class="text-[11px] uppercase tracking-[0.22em] text-plum-500 mb-2">Module 01 · OWASP A01</p>
-                                <h2 class="text-3xl font-semibold tracking-tight text-plum-200">Broken Access Control</h2>
+                                <p class="text-[11px] uppercase tracking-[0.22em] text-plum-500 mb-2">Module 01 · OWASP
+                                    A01</p>
+                                <h2 class="text-3xl font-semibold tracking-tight text-plum-200">Broken Access Control
+                                </h2>
                             </div>
                         </div>
 
                         <div class="rounded-xl border border-ink-600 bg-ink-800/70 p-1.5 shadow-soft">
                             <div class="flex flex-wrap gap-1.5">
                                 <template x-for="tab in bacTabs" :key="tab.id">
-                                    <button
-                                        type="button"
-                                        @click="setTab('broken-access-control', tab.id)"
+                                    <button type="button" @click="setTab('broken-access-control', tab.id)"
                                         class="rounded-lg px-3 py-2 text-sm font-medium transition-colors border border-transparent"
                                         :class="bacTab === tab.id
                                             ? 'border-plum-500/70 text-plum-200 bg-ink-700/80'
                                             : 'text-plum-500 hover:border-ink-500 hover:text-plum-300'"
-                                        x-text="tab.label"
-                                    ></button>
+                                        x-text="tab.label"></button>
                                 </template>
                             </div>
                         </div>
 
                         <!-- Learn -->
                         <div x-show="bacTab === 'learn'" class="space-y-5">
-                            <article class="rounded-xl border border-ink-600 bg-ink-800/80 p-6 md:p-8 space-y-5 leading-relaxed shadow-soft">
+                            <article
+                                class="rounded-xl border border-ink-600 bg-ink-800/80 p-6 md:p-8 space-y-5 leading-relaxed shadow-soft">
                                 <div>
-                                    <h3 class="text-sm font-semibold uppercase tracking-[0.14em] text-white mb-3">Authentication vs authorization</h3>
+                                    <h3 class="text-sm font-semibold uppercase tracking-[0.14em] text-white mb-3">
+                                        Authentication vs authorization</h3>
                                     <p class="text-plum-300 text-[15px] mb-3">
-                                        To understand <span class="text-plum-200 font-semibold">Broken Access Control</span>, we need to first look at two concepts that sound similar, but are actually completely different:
+                                        To understand <span class="text-plum-200 font-semibold">Broken Access
+                                            Control</span>, we need to first look at two concepts that sound similar,
+                                        but are actually completely different:
                                     </p>
                                     <div class="grid gap-3 md:grid-cols-2">
                                         <div class="rounded-lg border border-ink-600 bg-ink-850 p-4">
                                             <p class="text-plum-200 font-medium mb-2">Authentication</p>
                                             <p class="text-sm text-plum-400">
-                                                Authentication refers to proving who you are, e.g. logging into your school’s student portal with your email and password.
+                                                Authentication refers to proving who you are, e.g. logging into your
+                                                school’s student portal with your email and password.
                                             </p>
                                         </div>
                                         <div class="rounded-lg border border-ink-600 bg-ink-850 p-4">
                                             <p class="text-plum-200 font-medium mb-2">Authorization</p>
                                             <p class="text-sm text-plum-400">
-                                                Authorization refers to proving what you are allowed to do, e.g. as a student, you are authorized to view your own grades but you’re not allowed to change them.
+                                                Authorization refers to proving what you are allowed to do, e.g. as a
+                                                student, you are authorized to view your own grades but you’re not
+                                                allowed to change them.
                                             </p>
                                         </div>
                                     </div>
                                 </div>
 
                                 <p class="text-plum-300 text-[15px]">
-                                    <span class="text-plum-200 font-semibold">Broken Access Control</span> is security risk that occurs when a web app successfully authenticates you, but fails to enforce proper authorization, allowing users to act outside of their intended permissions. In general, we can put <span class="text-plum-200 font-semibold">Broken Access Control</span> vulnerabilities into one of two buckets:
+                                    <span class="text-plum-200 font-semibold">Broken Access Control</span> is security
+                                    risk that occurs when a web app successfully authenticates you, but fails to enforce
+                                    proper authorization, allowing users to act outside of their intended permissions.
+                                    In general, we can put <span class="text-plum-200 font-semibold">Broken Access
+                                        Control</span> vulnerabilities into one of two buckets:
                                 </p>
 
                                 <div>
@@ -312,53 +383,82 @@
                                         <div class="rounded-lg border border-ink-600 bg-ink-850 p-4">
                                             <p class="text-plum-200 font-medium mb-2">Vertical Privilege Escalation</p>
                                             <p class="text-sm text-plum-400">
-                                                A user gains access to a functionality that they are not permitted to access, e.g. a student reaches an admin page where they can drop other students from their courses.
+                                                A user gains access to a functionality that they are not permitted to
+                                                access, e.g. a student reaches an admin page where they can drop other
+                                                students from their courses.
                                             </p>
                                         </div>
                                         <div class="rounded-lg border border-ink-600 bg-ink-850 p-4">
-                                            <p class="text-plum-200 font-medium mb-2">Horizontal Privilege Escalation</p>
+                                            <p class="text-plum-200 font-medium mb-2">Horizontal Privilege Escalation
+                                            </p>
                                             <p class="text-sm text-plum-400">
-                                                A user gains access to resources belonging to another user that they shouldn’t have access to, e.g. a student can view another student’s academic transcript via the student portal.
+                                                A user gains access to resources belonging to another user that they
+                                                shouldn’t have access to, e.g. a student can view another student’s
+                                                academic transcript via the student portal.
                                             </p>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div>
-                                    <h3 class="text-sm font-semibold uppercase tracking-[0.14em] text-white mb-3">How this shows up in code</h3>
+                                    <h3 class="text-sm font-semibold uppercase tracking-[0.14em] text-white mb-3">How
+                                        this shows up in code</h3>
                                     <p class="text-plum-400 text-sm mb-4">
-                                        Most cases of Broken Access Control (and all of the ones explored in these challenges) are caused by one of two vulnerabilities:
+                                        Most cases of Broken Access Control (and all of the ones explored in these
+                                        challenges) are caused by one of two vulnerabilities:
                                     </p>
                                     <div class="space-y-3">
                                         <div class="rounded-lg border border-amber-500/30 bg-amber-500/10 p-4">
-                                            <p class="text-amber-200 font-medium mb-2">Broken Object Level Authorization (BOLA) &amp; IDOR</p>
+                                            <p class="text-amber-200 font-medium mb-2">Broken Object Level Authorization
+                                                (BOLA) &amp; IDOR</p>
                                             <p class="text-sm text-plum-400">
-                                                The most common cause of <span class="text-plum-200">horizontal</span> escalation. Historically known as Insecure Direct Object Reference (IDOR), this occurs when an application provides direct access to a database object (like a file or a user profile) based on user-supplied input, such as an ID number in a URL. It becomes a BOLA vulnerability when the server takes that ID but fails to validate if the requesting user actually owns or is authorized to access that specific object.
+                                                The most common cause of <span class="text-plum-200">horizontal</span>
+                                                escalation. Historically known as Insecure Direct Object Reference
+                                                (IDOR), this occurs when an application provides direct access to a
+                                                database object (like a file or a user profile) based on user-supplied
+                                                input, such as an ID number in a URL. It becomes a BOLA vulnerability
+                                                when the server takes that ID but fails to validate if the requesting
+                                                user actually owns or is authorized to access that specific object.
                                             </p>
                                         </div>
                                         <div class="rounded-lg border border-fuchsia-400/30 bg-fuchsia-500/10 p-4">
-                                            <p class="text-fuchsia-200 font-medium mb-2">Broken Function Level Authorization (BFLA)</p>
+                                            <p class="text-fuchsia-200 font-medium mb-2">Broken Function Level
+                                                Authorization (BFLA)</p>
                                             <p class="text-sm text-plum-400">
-                                                The most common cause of <span class="text-plum-200">vertical</span> escalation. It occurs when an application relies on the client (like hiding a UI button) to restrict access to a feature, but the backend server fails to properly verify the user’s role before allowing them to execute that specific administrative function.
+                                                The most common cause of <span class="text-plum-200">vertical</span>
+                                                escalation. It occurs when an application relies on the client (like
+                                                hiding a UI button) to restrict access to a feature, but the backend
+                                                server fails to properly verify the user’s role before allowing them to
+                                                execute that specific administrative function.
                                             </p>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="pt-2 border-t border-ink-600">
-                                    <h3 class="text-sm font-semibold uppercase tracking-[0.14em] text-white mb-3">The Challenge App</h3>
+                                    <h3 class="text-sm font-semibold uppercase tracking-[0.14em] text-white mb-3">The
+                                        Challenge App</h3>
                                     <p class="text-plum-300 text-[15px] mb-3">
-                                        The target for these challenges is a <span class="text-plum-200 font-medium">student portal</span> for a Security Engineering course. It lets students view results, browse classmates, keep private notes, and manage a simple profile.
+                                        The target for these challenges is a <span
+                                            class="text-plum-200 font-medium">student portal</span> for a Security
+                                        Engineering course. It lets students view results, browse classmates, keep
+                                        private notes, and manage a simple profile.
                                     </p>
                                     <p class="text-sm text-plum-400 mb-3">
-                                        Open the portal at <span class="font-mono text-plum-300">http://localhost:5000</span>. To work through the challenges, log in with:
+                                        Open the portal at <span
+                                            class="font-mono text-plum-300">http://localhost:5000</span>. To work
+                                        through the challenges, log in with:
                                     </p>
-                                    <div class="rounded-lg border border-ink-600 bg-ink-850 px-4 py-3 font-mono text-sm text-plum-200 space-y-1">
+                                    <div
+                                        class="rounded-lg border border-ink-600 bg-ink-850 px-4 py-3 font-mono text-sm text-plum-200 space-y-1">
                                         <p><span class="text-plum-500">username</span>: ctfuser</p>
                                         <p><span class="text-plum-500">password</span>: ctfpassword</p>
                                     </div>
                                     <p class="text-sm text-plum-400 mt-3">
-                                        Feel free to explore the app and the available source code in the <span class="font-mono text-plum-300">broken-access-controls</span> folder. Specific files required for the challenges can be found in the <span class="font-mono text-plum-300">challenge-files</span> folder.
+                                        Feel free to explore the app and the available source code in the <span
+                                            class="font-mono text-plum-300">broken-access-controls</span> folder.
+                                        Specific files required for the challenges can be found in the <span
+                                            class="font-mono text-plum-300">challenge-files</span> folder.
                                     </p>
                                 </div>
                             </article>
@@ -368,112 +468,124 @@
                         <template x-for="challenge in bacChallenges" :key="challenge.id">
                             <div x-show="bacTab === challenge.id" class="space-y-5">
                                 <!-- Scenario -->
-                                <section class="rounded-xl border border-ink-600 bg-ink-800/80 p-6 md:p-8 space-y-3 shadow-soft">
+                                <section
+                                    class="rounded-xl border border-ink-600 bg-ink-800/80 p-6 md:p-8 space-y-3 shadow-soft">
                                     <div class="flex items-center gap-2">
-                                        <span class="text-[11px] font-semibold uppercase tracking-[0.16em] text-plum-400">Scenario</span>
+                                        <span
+                                            class="text-[11px] font-semibold uppercase tracking-[0.16em] text-plum-400">Scenario</span>
                                     </div>
-                                    <p class="text-plum-300 text-[15px] leading-relaxed" x-text="challenge.scenario"></p>
+                                    <p class="text-plum-300 text-[15px] leading-relaxed" x-text="challenge.scenario">
+                                    </p>
                                 </section>
 
                                 <!-- Break -->
-                                <section class="rounded-xl border border-rose-400/30 bg-ink-800/80 p-6 md:p-8 space-y-4 shadow-soft">
+                                <section
+                                    class="rounded-xl border border-rose-400/30 bg-ink-800/80 p-6 md:p-8 space-y-4 shadow-soft">
                                     <h3 class="text-lg font-semibold text-rose-300">Break</h3>
 
                                     <div class="space-y-2">
-                                        <p class="text-[11px] font-semibold uppercase tracking-[0.14em] text-plum-500">Task</p>
-                                        <p class="text-sm text-plum-300 leading-relaxed" x-text="challenge.break.task"></p>
+                                        <p class="text-[11px] font-semibold uppercase tracking-[0.14em] text-plum-500">
+                                            Task</p>
+                                        <p class="text-sm text-plum-300 leading-relaxed" x-text="challenge.break.task">
+                                        </p>
                                     </div>
 
-                                    <div
-                                        x-show="challenge.break.disclaimer"
+                                    <div x-show="challenge.break.disclaimer"
                                         class="rounded-lg border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-100/90 leading-relaxed"
-                                        x-text="challenge.break.disclaimer"
-                                    ></div>
+                                        x-text="challenge.break.disclaimer"></div>
 
-                                    <div class="space-y-2" x-show="challenge.break.hints && challenge.break.hints.length">
-                                        <p class="text-[11px] font-semibold uppercase tracking-[0.14em] text-plum-500">Hints</p>
+                                    <div class="space-y-2"
+                                        x-show="challenge.break.hints && challenge.break.hints.length">
+                                        <p class="text-[11px] font-semibold uppercase tracking-[0.14em] text-plum-500">
+                                            Hints</p>
                                         <div class="space-y-2">
-                                            <template x-for="(hint, index) in challenge.break.hints" :key="'break-' + challenge.id + '-' + index">
+                                            <template x-for="(hint, index) in challenge.break.hints"
+                                                :key="'break-' + challenge.id + '-' + index">
                                                 <details class="rounded-lg border border-ink-600 bg-ink-850">
-                                                    <summary class="cursor-pointer list-none px-4 py-3 text-sm text-plum-200 hover:bg-ink-700/60 flex items-center justify-between gap-3">
+                                                    <summary
+                                                        class="cursor-pointer list-none px-4 py-3 text-sm text-plum-200 hover:bg-ink-700/60 flex items-center justify-between gap-3">
                                                         <span x-text="'Hint ' + (index + 1)"></span>
-                                                        <span class="hint-toggle text-plum-500 font-mono text-xs select-none"></span>
+                                                        <span
+                                                            class="hint-toggle text-plum-500 font-mono text-xs select-none"></span>
                                                     </summary>
-                                                    <div class="border-t border-ink-600 px-4 py-3 text-sm text-plum-400 leading-relaxed" x-text="hint"></div>
+                                                    <div class="border-t border-ink-600 px-4 py-3 text-sm text-plum-400 leading-relaxed"
+                                                        x-text="hint"></div>
                                                 </details>
                                             </template>
                                         </div>
                                     </div>
 
                                     <div class="pt-2 space-y-2 border-t border-rose-400/20">
-                                        <p class="text-[11px] font-semibold uppercase tracking-[0.14em] text-plum-500">Submit Flag</p>
-                                        <form class="flex flex-col sm:flex-row gap-2" @submit.prevent="submitFlag(challenge)">
-                                            <input
-                                                type="text"
-                                                x-model="challenge.flagInput"
-                                                placeholder="FLAG{...}"
+                                        <p class="text-[11px] font-semibold uppercase tracking-[0.14em] text-plum-500">
+                                            Submit Flag</p>
+                                        <form class="flex flex-col sm:flex-row gap-2"
+                                            @submit.prevent="submitFlag(challenge)">
+                                            <input type="text" x-model="challenge.flagInput" placeholder="FLAG{...}"
                                                 class="flex-1 rounded-lg border border-ink-600 bg-ink-850 px-3 py-2.5 font-mono text-sm text-plum-200 placeholder:text-plum-500/70 focus:outline-none focus:border-plum-500"
-                                                autocomplete="off"
-                                                spellcheck="false"
-                                            >
-                                            <button
-                                                type="submit"
-                                                class="rounded-lg border border-rose-400/40 bg-rose-500/15 px-4 py-2.5 text-sm font-medium text-rose-200 hover:bg-rose-500/25 transition-colors"
-                                            >
+                                                autocomplete="off" spellcheck="false">
+                                            <button type="submit"
+                                                class="rounded-lg border border-rose-400/40 bg-rose-500/15 px-4 py-2.5 text-sm font-medium text-rose-200 hover:bg-rose-500/25 transition-colors">
                                                 Submit
                                             </button>
                                         </form>
-                                        <p
-                                            class="text-sm font-mono min-h-[1.25rem]"
+                                        <p class="text-sm font-mono min-h-[1.25rem]"
                                             :class="challenge.flagOk === true ? 'text-emerald-300' : (challenge.flagOk === false ? 'text-rose-300' : 'text-plum-500')"
-                                            x-text="challenge.flagMessage"
-                                        ></p>
+                                            x-text="challenge.flagMessage"></p>
                                     </div>
                                 </section>
 
                                 <!-- Patch -->
-                                <section class="rounded-xl border border-emerald-400/30 bg-ink-800/80 p-6 md:p-8 space-y-4 shadow-soft">
+                                <section
+                                    class="rounded-xl border border-emerald-400/30 bg-ink-800/80 p-6 md:p-8 space-y-4 shadow-soft">
                                     <h3 class="text-lg font-semibold text-emerald-300">Patch</h3>
 
                                     <div class="space-y-2">
-                                        <p class="text-[11px] font-semibold uppercase tracking-[0.14em] text-plum-500">Task</p>
-                                        <p class="text-sm text-plum-300 leading-relaxed" x-text="challenge.patch.task"></p>
-                                        <details
-                                            x-show="challenge.patch.taskSpoiler"
-                                            class="rounded-lg border border-amber-500/30 bg-amber-500/10"
-                                        >
-                                            <summary class="cursor-pointer list-none px-4 py-3 text-sm text-amber-200 hover:bg-amber-500/10 flex items-center justify-between gap-3">
-                                                <span>Spoiler</span>
-                                                <span class="hint-toggle text-amber-300/80 font-mono text-xs select-none"></span>
+                                        <p class="text-[11px] font-semibold uppercase tracking-[0.14em] text-plum-500">
+                                            Task</p>
+                                        <p class="text-sm text-plum-300 leading-relaxed" x-text="challenge.patch.task">
+                                        </p>
+                                        <details x-show="challenge.patch.taskSpoiler"
+                                            class="rounded-lg border border-amber-500/30 bg-amber-500/10">
+                                            <summary
+                                                class="cursor-pointer list-none px-4 py-3 text-sm text-amber-200 hover:bg-amber-500/10 flex items-center justify-between gap-3">
+                                                <span>Spoiler! Open after finishing "Break" task</span>
+                                                <span
+                                                    class="hint-toggle text-amber-300/80 font-mono text-xs select-none"></span>
                                             </summary>
-                                            <div class="border-t border-amber-500/25 px-4 py-3 text-sm text-amber-100/85 leading-relaxed" x-text="challenge.patch.taskSpoiler"></div>
+                                            <div class="border-t border-amber-500/25 px-4 py-3 text-sm text-amber-100/85 leading-relaxed"
+                                                x-text="challenge.patch.taskSpoiler"></div>
                                         </details>
                                     </div>
 
                                     <div class="pt-2 space-y-3 border-t border-emerald-400/20">
-                                        <button
-                                            type="button"
-                                            @click="verifyPatch(challenge, 'a01')"
-                                            class="rounded-lg border border-emerald-400/40 bg-emerald-500/15 px-4 py-2.5 text-sm font-medium text-emerald-200 hover:bg-emerald-500/25 transition-colors"
-                                        >
+                                        <button type="button" @click="verifyPatch(challenge, 'a01')"
+                                            class="rounded-lg border border-emerald-400/40 bg-emerald-500/15 px-4 py-2.5 text-sm font-medium text-emerald-200 hover:bg-emerald-500/25 transition-colors">
                                             Verify Patch
                                         </button>
                                         <div class="rounded-lg border border-ink-600 bg-ink-850 min-h-[8rem] p-4">
-                                            <p class="text-[11px] font-semibold uppercase tracking-[0.14em] text-plum-500 mb-2">Test Output</p>
-                                            <pre class="font-mono text-xs text-plum-300 whitespace-pre-wrap break-words" x-text="challenge.patchOutput || 'Click Verify Patch to run checks.'"></pre>
+                                            <p
+                                                class="text-[11px] font-semibold uppercase tracking-[0.14em] text-plum-500 mb-2">
+                                                Test Output</p>
+                                            <pre class="font-mono text-xs text-plum-300 whitespace-pre-wrap break-words"
+                                                x-text="challenge.patchOutput || 'Click Verify Patch to run checks.'"></pre>
                                         </div>
                                     </div>
                                 </section>
 
                                 <!-- Notes on specific vulnerability -->
-                                <section class="rounded-xl border border-ink-600 bg-ink-800/80 p-6 md:p-8 space-y-3 shadow-soft">
-                                    <p class="text-[11px] font-semibold uppercase tracking-[0.16em] text-plum-400">Notes on specific vulnerability</p>
+                                <section
+                                    class="rounded-xl border border-ink-600 bg-ink-800/80 p-6 md:p-8 space-y-3 shadow-soft">
+                                    <p class="text-[11px] font-semibold uppercase tracking-[0.16em] text-plum-400">Notes
+                                        on specific vulnerability</p>
                                     <details class="rounded-lg border border-amber-500/30 bg-amber-500/10">
-                                        <summary class="cursor-pointer list-none px-4 py-3 text-sm text-amber-200 hover:bg-amber-500/10 flex items-center justify-between gap-3">
+                                        <summary
+                                            class="cursor-pointer list-none px-4 py-3 text-sm text-amber-200 hover:bg-amber-500/10 flex items-center justify-between gap-3">
                                             <span>Spoiler! Open after solving</span>
-                                            <span class="hint-toggle text-amber-300/80 font-mono text-xs select-none"></span>
+                                            <span
+                                                class="hint-toggle text-amber-300/80 font-mono text-xs select-none"></span>
                                         </summary>
-                                        <div class="border-t border-amber-500/25 px-4 py-3 text-sm text-plum-300 leading-relaxed" x-text="challenge.notes"></div>
+                                        <div class="border-t border-amber-500/25 px-4 py-3 text-sm text-plum-300 leading-relaxed"
+                                            x-text="challenge.notes"></div>
                                     </details>
                                 </section>
                             </div>
@@ -481,42 +593,49 @@
                     </div>
 
                     <!-- Mishandling of Exceptional Conditions -->
-                    <div x-show="page === 'mishandling-exceptional-conditions'" x-transition.opacity.duration.150ms class="space-y-6">
+                    <div x-show="page === 'mishandling-exceptional-conditions'" x-transition.opacity.duration.150ms
+                        class="space-y-6">
                         <div class="flex flex-wrap items-end justify-between gap-4">
                             <div>
-                                <p class="text-[11px] uppercase tracking-[0.22em] text-plum-500 mb-2">Module 02 · OWASP A10</p>
-                                <h2 class="text-3xl font-semibold tracking-tight text-plum-200">Mishandling of Exceptional Conditions</h2>
+                                <p class="text-[11px] uppercase tracking-[0.22em] text-plum-500 mb-2">Module 02 · OWASP
+                                    A10</p>
+                                <h2 class="text-3xl font-semibold tracking-tight text-plum-200">Mishandling of
+                                    Exceptional Conditions</h2>
                             </div>
                         </div>
 
                         <div class="rounded-xl border border-ink-600 bg-ink-800/70 p-1.5 shadow-soft">
                             <div class="flex flex-wrap gap-1.5">
                                 <template x-for="tab in mecTabs" :key="tab.id">
-                                    <button
-                                        type="button"
-                                        @click="setTab('mishandling-exceptional-conditions', tab.id)"
+                                    <button type="button" @click="setTab('mishandling-exceptional-conditions', tab.id)"
                                         class="rounded-lg px-3 py-2 text-sm font-medium transition-colors border border-transparent"
                                         :class="mecTab === tab.id
                                             ? 'border-plum-500/70 text-plum-200 bg-ink-700/80'
                                             : 'text-plum-500 hover:border-ink-500 hover:text-plum-300'"
-                                        x-text="tab.label"
-                                    ></button>
+                                        x-text="tab.label"></button>
                                 </template>
                             </div>
                         </div>
 
                         <!-- Learn -->
                         <div x-show="mecTab === 'learn'" class="space-y-5">
-                            <article class="rounded-xl border border-ink-600 bg-ink-800/80 p-6 md:p-8 space-y-5 leading-relaxed shadow-soft">
+                            <article
+                                class="rounded-xl border border-ink-600 bg-ink-800/80 p-6 md:p-8 space-y-5 leading-relaxed shadow-soft">
                                 <p class="text-plum-300 text-[15px]">
-                                    <span class="text-plum-200 font-semibold">Mishandling of Exceptional Conditions</span> is a security risk that refers to any vulnerability where an application fails to properly handle exceptional (error) conditions. At its core, this vulnerability can happen in three main ways:
+                                    <span class="text-plum-200 font-semibold">Mishandling of Exceptional
+                                        Conditions</span> is a security risk that refers to any vulnerability where an
+                                    application fails to properly handle exceptional (error) conditions. At its core,
+                                    this vulnerability can happen in three main ways:
                                 </p>
 
                                 <div class="space-y-3">
                                     <div class="rounded-lg border border-ink-600 bg-ink-850 p-4">
-                                        <p class="text-plum-200 font-medium mb-2">Failure to prevent an exceptional case</p>
+                                        <p class="text-plum-200 font-medium mb-2">Failure to prevent an exceptional case
+                                        </p>
                                         <p class="text-sm text-plum-400">
-                                            The application fails to anticipate and prevent edge cases, potentially causing the system to crash. e.g. A calculator app not sanitizing division by zero, causing the program to crash.
+                                            The application fails to anticipate and prevent edge cases, potentially
+                                            causing the system to crash. e.g. A calculator app not sanitizing division
+                                            by zero, causing the program to crash.
                                         </p>
                                     </div>
                                     <div class="rounded-lg border border-ink-600 bg-ink-850 p-4">
@@ -534,35 +653,46 @@
                                 </div>
 
                                 <div>
-                                    <h3 class="text-sm font-semibold uppercase tracking-[0.14em] text-white mb-3">How this shows up in practice</h3>
+                                    <h3 class="text-sm font-semibold uppercase tracking-[0.14em] text-white mb-3">How
+                                        this shows up in practice</h3>
                                     <p class="text-plum-400 text-sm mb-4">
-                                        The risk of Mishandling Exceptional Conditions can come in the form of many different vulnerabilities. The challenges for this topic will cover four of these vulnerabilities, namely:
+                                        The risk of Mishandling Exceptional Conditions can come in the form of many
+                                        different vulnerabilities. The challenges for this topic will cover four of
+                                        these vulnerabilities, namely:
                                     </p>
                                     <div class="space-y-3">
                                         <div class="rounded-lg border border-amber-500/30 bg-amber-500/10 p-4">
                                             <p class="text-amber-200 font-medium mb-2">Verbose error messages</p>
-                                            <p class="text-sm text-plum-400">When an error message gives away too much information.</p>
+                                            <p class="text-sm text-plum-400">When an error message gives away too much
+                                                information.</p>
                                         </div>
                                         <div class="rounded-lg border border-fuchsia-400/30 bg-fuchsia-500/10 p-4">
                                             <p class="text-fuchsia-200 font-medium mb-2">Partial transactions</p>
-                                            <p class="text-sm text-plum-400">When multi-step operations fail mid-way.</p>
+                                            <p class="text-sm text-plum-400">When multi-step operations fail mid-way.
+                                            </p>
                                         </div>
                                         <div class="rounded-lg border border-rose-400/30 bg-rose-500/10 p-4">
                                             <p class="text-rose-200 font-medium mb-2">Inconsistent error logic</p>
-                                            <p class="text-sm text-plum-400">When errors that are supposed to be the same are handled differently.</p>
+                                            <p class="text-sm text-plum-400">When errors that are supposed to be the
+                                                same are handled differently.</p>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="pt-2 border-t border-ink-600">
-                                    <h3 class="text-sm font-semibold uppercase tracking-[0.14em] text-white mb-3">The challenge app</h3>
+                                    <h3 class="text-sm font-semibold uppercase tracking-[0.14em] text-white mb-3">The
+                                        challenge app</h3>
                                     <p class="text-plum-300 text-[15px] mb-3">
-                                        These challenges run on the <span class="text-plum-200 font-medium">Elite University Portal</span>. Students earn Personal Points from schoolwork and spend them in campus shops, from coffee to exclusive VIP perks.
+                                        These challenges run on the <span class="text-plum-200 font-medium">Elite
+                                            University Portal</span>. Students earn Personal Points from schoolwork and
+                                        spend them in campus shops, from coffee to exclusive VIP perks.
                                     </p>
                                     <p class="text-sm text-plum-400 mb-3">
-                                        Open the portal at <span class="font-mono text-plum-300">http://localhost:5001</span>. Log in with:
+                                        Open the portal at <span
+                                            class="font-mono text-plum-300">http://localhost:5001</span>. Log in with:
                                     </p>
-                                    <div class="rounded-lg border border-ink-600 bg-ink-850 px-4 py-3 font-mono text-sm text-plum-200 space-y-1">
+                                    <div
+                                        class="rounded-lg border border-ink-600 bg-ink-850 px-4 py-3 font-mono text-sm text-plum-200 space-y-1">
                                         <p><span class="text-plum-500">username</span> · ctfuser</p>
                                         <p><span class="text-plum-500">password</span> · ctfpassword</p>
                                     </div>
@@ -573,101 +703,113 @@
                         <!-- Challenges -->
                         <template x-for="challenge in mecChallenges" :key="challenge.id">
                             <div x-show="mecTab === challenge.id" class="space-y-5">
-                                <section class="rounded-xl border border-ink-600 bg-ink-800/80 p-6 md:p-8 space-y-3 shadow-soft">
-                                    <span class="text-[11px] font-semibold uppercase tracking-[0.16em] text-plum-400">Scenario</span>
-                                    <p class="text-plum-300 text-[15px] leading-relaxed" x-text="challenge.scenario"></p>
+                                <section
+                                    class="rounded-xl border border-ink-600 bg-ink-800/80 p-6 md:p-8 space-y-3 shadow-soft">
+                                    <span
+                                        class="text-[11px] font-semibold uppercase tracking-[0.16em] text-plum-400">Scenario</span>
+                                    <p class="text-plum-300 text-[15px] leading-relaxed" x-text="challenge.scenario">
+                                    </p>
                                 </section>
 
-                                <section class="rounded-xl border border-rose-400/30 bg-ink-800/80 p-6 md:p-8 space-y-4 shadow-soft">
+                                <section
+                                    class="rounded-xl border border-rose-400/30 bg-ink-800/80 p-6 md:p-8 space-y-4 shadow-soft">
                                     <h3 class="text-lg font-semibold text-rose-300">Break</h3>
                                     <div class="space-y-2">
-                                        <p class="text-[11px] font-semibold uppercase tracking-[0.14em] text-plum-500">Task</p>
-                                        <p class="text-sm text-plum-300 leading-relaxed" x-text="challenge.break.task"></p>
+                                        <p class="text-[11px] font-semibold uppercase tracking-[0.14em] text-plum-500">
+                                            Task</p>
+                                        <p class="text-sm text-plum-300 leading-relaxed" x-text="challenge.break.task">
+                                        </p>
                                     </div>
-                                    <div
-                                        x-show="challenge.break.disclaimer"
+                                    <div x-show="challenge.break.disclaimer"
                                         class="rounded-lg border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-100/90 leading-relaxed"
-                                        x-text="challenge.break.disclaimer"
-                                    ></div>
-                                    <div class="space-y-2" x-show="challenge.break.hints && challenge.break.hints.length">
-                                        <p class="text-[11px] font-semibold uppercase tracking-[0.14em] text-plum-500">Hints</p>
+                                        x-text="challenge.break.disclaimer"></div>
+                                    <div class="space-y-2"
+                                        x-show="challenge.break.hints && challenge.break.hints.length">
+                                        <p class="text-[11px] font-semibold uppercase tracking-[0.14em] text-plum-500">
+                                            Hints</p>
                                         <div class="space-y-2">
-                                            <template x-for="(hint, index) in challenge.break.hints" :key="'mec-break-' + challenge.id + '-' + index">
+                                            <template x-for="(hint, index) in challenge.break.hints"
+                                                :key="'mec-break-' + challenge.id + '-' + index">
                                                 <details class="rounded-lg border border-ink-600 bg-ink-850">
-                                                    <summary class="cursor-pointer list-none px-4 py-3 text-sm text-plum-200 hover:bg-ink-700/60 flex items-center justify-between gap-3">
+                                                    <summary
+                                                        class="cursor-pointer list-none px-4 py-3 text-sm text-plum-200 hover:bg-ink-700/60 flex items-center justify-between gap-3">
                                                         <span x-text="'Hint ' + (index + 1)"></span>
-                                                        <span class="hint-toggle text-plum-500 font-mono text-xs select-none"></span>
+                                                        <span
+                                                            class="hint-toggle text-plum-500 font-mono text-xs select-none"></span>
                                                     </summary>
-                                                    <div class="border-t border-ink-600 px-4 py-3 text-sm text-plum-400 leading-relaxed" x-text="hint"></div>
+                                                    <div class="border-t border-ink-600 px-4 py-3 text-sm text-plum-400 leading-relaxed"
+                                                        x-text="hint"></div>
                                                 </details>
                                             </template>
                                         </div>
                                     </div>
                                     <div class="pt-2 space-y-2 border-t border-rose-400/20">
-                                        <p class="text-[11px] font-semibold uppercase tracking-[0.14em] text-plum-500">Submit Flag</p>
-                                        <form class="flex flex-col sm:flex-row gap-2" @submit.prevent="submitFlag(challenge)">
-                                            <input
-                                                type="text"
-                                                x-model="challenge.flagInput"
-                                                placeholder="FLAG{...}"
+                                        <p class="text-[11px] font-semibold uppercase tracking-[0.14em] text-plum-500">
+                                            Submit Flag</p>
+                                        <form class="flex flex-col sm:flex-row gap-2"
+                                            @submit.prevent="submitFlag(challenge)">
+                                            <input type="text" x-model="challenge.flagInput" placeholder="FLAG{...}"
                                                 class="flex-1 rounded-lg border border-ink-600 bg-ink-850 px-3 py-2.5 font-mono text-sm text-plum-200 placeholder:text-plum-500/70 focus:outline-none focus:border-plum-500"
-                                                autocomplete="off"
-                                                spellcheck="false"
-                                            >
-                                            <button
-                                                type="submit"
-                                                class="rounded-lg border border-rose-400/40 bg-rose-500/15 px-4 py-2.5 text-sm font-medium text-rose-200 hover:bg-rose-500/25 transition-colors"
-                                            >
+                                                autocomplete="off" spellcheck="false">
+                                            <button type="submit"
+                                                class="rounded-lg border border-rose-400/40 bg-rose-500/15 px-4 py-2.5 text-sm font-medium text-rose-200 hover:bg-rose-500/25 transition-colors">
                                                 Submit
                                             </button>
                                         </form>
-                                        <p
-                                            class="text-sm font-mono min-h-[1.25rem]"
+                                        <p class="text-sm font-mono min-h-[1.25rem]"
                                             :class="challenge.flagOk === true ? 'text-emerald-300' : (challenge.flagOk === false ? 'text-rose-300' : 'text-plum-500')"
-                                            x-text="challenge.flagMessage"
-                                        ></p>
+                                            x-text="challenge.flagMessage"></p>
                                     </div>
                                 </section>
 
-                                <section class="rounded-xl border border-emerald-400/30 bg-ink-800/80 p-6 md:p-8 space-y-4 shadow-soft">
+                                <section
+                                    class="rounded-xl border border-emerald-400/30 bg-ink-800/80 p-6 md:p-8 space-y-4 shadow-soft">
                                     <h3 class="text-lg font-semibold text-emerald-300">Patch</h3>
                                     <div class="space-y-2">
-                                        <p class="text-[11px] font-semibold uppercase tracking-[0.14em] text-plum-500">Task</p>
-                                        <p class="text-sm text-plum-300 leading-relaxed" x-text="challenge.patch.task"></p>
-                                        <details
-                                            x-show="challenge.patch.taskSpoiler"
-                                            class="rounded-lg border border-amber-500/30 bg-amber-500/10"
-                                        >
-                                            <summary class="cursor-pointer list-none px-4 py-3 text-sm text-amber-200 hover:bg-amber-500/10 flex items-center justify-between gap-3">
+                                        <p class="text-[11px] font-semibold uppercase tracking-[0.14em] text-plum-500">
+                                            Task</p>
+                                        <p class="text-sm text-plum-300 leading-relaxed" x-text="challenge.patch.task">
+                                        </p>
+                                        <details x-show="challenge.patch.taskSpoiler"
+                                            class="rounded-lg border border-amber-500/30 bg-amber-500/10">
+                                            <summary
+                                                class="cursor-pointer list-none px-4 py-3 text-sm text-amber-200 hover:bg-amber-500/10 flex items-center justify-between gap-3">
                                                 <span>Spoiler</span>
-                                                <span class="hint-toggle text-amber-300/80 font-mono text-xs select-none"></span>
+                                                <span
+                                                    class="hint-toggle text-amber-300/80 font-mono text-xs select-none"></span>
                                             </summary>
-                                            <div class="border-t border-amber-500/25 px-4 py-3 text-sm text-amber-100/85 leading-relaxed" x-text="challenge.patch.taskSpoiler"></div>
+                                            <div class="border-t border-amber-500/25 px-4 py-3 text-sm text-amber-100/85 leading-relaxed"
+                                                x-text="challenge.patch.taskSpoiler"></div>
                                         </details>
                                     </div>
                                     <div class="pt-2 space-y-3 border-t border-emerald-400/20">
-                                        <button
-                                            type="button"
-                                            @click="verifyPatch(challenge, 'a10')"
-                                            class="rounded-lg border border-emerald-400/40 bg-emerald-500/15 px-4 py-2.5 text-sm font-medium text-emerald-200 hover:bg-emerald-500/25 transition-colors"
-                                        >
+                                        <button type="button" @click="verifyPatch(challenge, 'a10')"
+                                            class="rounded-lg border border-emerald-400/40 bg-emerald-500/15 px-4 py-2.5 text-sm font-medium text-emerald-200 hover:bg-emerald-500/25 transition-colors">
                                             Verify Patch
                                         </button>
                                         <div class="rounded-lg border border-ink-600 bg-ink-850 min-h-[8rem] p-4">
-                                            <p class="text-[11px] font-semibold uppercase tracking-[0.14em] text-plum-500 mb-2">Test Output</p>
-                                            <pre class="font-mono text-xs text-plum-300 whitespace-pre-wrap break-words" x-text="challenge.patchOutput || 'Click Verify Patch to run checks.'"></pre>
+                                            <p
+                                                class="text-[11px] font-semibold uppercase tracking-[0.14em] text-plum-500 mb-2">
+                                                Test Output</p>
+                                            <pre class="font-mono text-xs text-plum-300 whitespace-pre-wrap break-words"
+                                                x-text="challenge.patchOutput || 'Click Verify Patch to run checks.'"></pre>
                                         </div>
                                     </div>
                                 </section>
 
-                                <section class="rounded-xl border border-ink-600 bg-ink-800/80 p-6 md:p-8 space-y-3 shadow-soft">
-                                    <p class="text-[11px] font-semibold uppercase tracking-[0.16em] text-plum-400">Notes on specific vulnerability</p>
+                                <section
+                                    class="rounded-xl border border-ink-600 bg-ink-800/80 p-6 md:p-8 space-y-3 shadow-soft">
+                                    <p class="text-[11px] font-semibold uppercase tracking-[0.16em] text-plum-400">Notes
+                                        on specific vulnerability</p>
                                     <details class="rounded-lg border border-amber-500/30 bg-amber-500/10">
-                                        <summary class="cursor-pointer list-none px-4 py-3 text-sm text-amber-200 hover:bg-amber-500/10 flex items-center justify-between gap-3">
+                                        <summary
+                                            class="cursor-pointer list-none px-4 py-3 text-sm text-amber-200 hover:bg-amber-500/10 flex items-center justify-between gap-3">
                                             <span>Spoiler! Open after solving</span>
-                                            <span class="hint-toggle text-amber-300/80 font-mono text-xs select-none"></span>
+                                            <span
+                                                class="hint-toggle text-amber-300/80 font-mono text-xs select-none"></span>
                                         </summary>
-                                        <div class="border-t border-amber-500/25 px-4 py-3 text-sm text-plum-300 leading-relaxed" x-text="challenge.notes"></div>
+                                        <div class="border-t border-amber-500/25 px-4 py-3 text-sm text-plum-300 leading-relaxed"
+                                            x-text="challenge.notes"></div>
                                     </details>
                                 </section>
                             </div>
@@ -770,7 +912,7 @@
                         flagOk: null,
                         flagMessage: "",
                         patchOutput: "",
-                        scenario: "To increase security, the course app uses unguessable UUIDs for a highly sensitive “Private Notes” feature instead of sequential IDs.",
+                        scenario: "To increase security, the course app uses unguessable UUIDs for a highly sensitive “Private Notes” (GET /api/notes/{uuid}) feature instead of sequential IDs.",
                         break: {
                             task: "Your task is to steal the private notes of a classmate named Bob McStriker by finding their UUID.",
                             hints: [
@@ -782,7 +924,7 @@
                             task: "Can you find a way to patch the vulnerable code so that unauthorized users get an HTTP 403 Forbidden response when trying to view someone else’s private notes?",
                             taskSpoiler: "Also ensure UUIDs are no longer leaked on the Classmates tab.",
                         },
-                        notes: "This scenario demonstrates Broken Object Level Authorization (BOLA) enabled by information disclosure. The developer mistakenly believed that using unguessable UUIDs replaced the need for object-level access control. When those UUIDs were leaked through a different endpoint, the entire security model collapsed, allowing you to view a peer’s private notes and achieve Horizontal Privilege Escalation.",
+                        notes: "This scenario demonstrates Broken Object Level Authorization (BOLA) enabled by information disclosure. The use of unguessable UUIDs does not replace the need for object-level access control. Obtaining the UUIDs through a different endpoint allowed you to view a peer’s private notes and achieve Horizontal Privilege Escalation.",
                     },
                     {
                         id: "challenge-4",
@@ -791,7 +933,7 @@
                         flagOk: null,
                         flagMessage: "",
                         patchOutput: "",
-                        scenario: "The course app features an API endpoint that allows “staff” to view the upcoming final exam’s solutions.",
+                        scenario: "The course app features an API endpoint (GET /api/staff/exams/solutions) that allows “staff” to view the upcoming final exam’s solutions.",
                         break: {
                             task: "Can you find a way to view these exam solutions?",
                             hints: [
@@ -802,7 +944,7 @@
                         },
                         patch: {
                             task: "Can you find a way to patch the vulnerable code?",
-                            taskSpoiler: "Students should only be able to update their name and bio, and cannot overwrite sensitive account roles.",
+                            taskSpoiler: "Students should only be able to update their name and bio, and cannot overwrite sensitive account roles. If they try to update anything other than name and bio, the server should return an HTTP 403 Forbidden response.",
                         },
                         notes: "This vulnerability is an example of a Mass Assignment flaw leading to Broken Function Level Authorization (BFLA). Mass Assignment occurs when a framework automatically assigns user-provided data directly to a database object without any filtering. By injecting the “role” field into your profile update request, the framework blindly overwrote your permissions. You permanently promoted yourself to faculty status, achieving Vertical Privilege Escalation to access restricted functions.",
                     },
@@ -827,7 +969,7 @@
                             task: "Can you modify the search endpoint to properly return an HTTP 400 error when an error occurs during search_activities?",
                             taskSpoiler: "",
                         },
-                        notes: "This vulnerability is an example of Verbose Error Messages. A verbose error message vulnerability occurs when an application improperly handles an internal crash or exception and displays raw backend data to the user. Instead of showing a generic an error message, the Elite University server ends up leaving a stack trace, which exposes the Admin API Key. To ensure Verbose Error Messages don't happen, applications must catch every exception and return a suitable HTTP error response, preventing stack trace leakage.",
+                        notes: "This vulnerability is an example of Verbose Error Messages which is a result of failure to respond safely. A verbose error message vulnerability occurs when an application improperly handles an internal crash or exception and displays raw backend data to the user. Instead of showing a generic error message, the Elite University server ends up leaving a stack trace, which exposes the Admin API Key. To ensure Verbose Error Messages don't happen, applications must catch every exception and return a suitable HTTP error response, preventing stack trace leakage.",
                     },
                     {
                         id: "challenge-2",
@@ -851,9 +993,10 @@
                             task: "Can you fix error handling in the backend to ensure partial bonuses never happen and return an HTTP 400 error when an error occurs during award_introduction_bonus?",
                             taskSpoiler: "Hint: look into the .rollback() method for sqlite3. Wrap adding points and saving the introduction in one try/except, and call conn.rollback() on failure.",
                         },
-                        notes: "This vulnerability is an example of Partial Transactions. A partial transaction vulnerability occurs when a multi-step database operation fails halfway through, but the system fails to undo the steps that already succeeded. Instead of reverting the user's balance when a bad payload crashes the introduction save process, the Elite University server ends up executing only the first step, which permanently awards the 10,000 point bonus. To ensure Partial Transactions don't happen, applications must wrap related database actions in a single atomic transaction and explicitly trigger a database rollback if any exception is encountered.",
+                        
+                        notes: "This vulnerability is an example of Partial Transactions, which is a result of failure to respond safely. A partial transaction vulnerability occurs when a multi-step database operation fails halfway through, but the system responds poorly by failing to undo the steps that already succeeded. Instead of reverting the user's balance when a bad payload crashes the introduction save process, the Elite University server ends up executing only the first step, which permanently awards the 10,000 point bonus. To ensure Partial Transactions don't happen, applications must wrap related database actions in a single atomic transaction and perform a database rollback if any exception occurs.",
                     },
-                    {
+                    {    
                         id: "challenge-3",
                         flag: "FLAG{F41L_0P3N_V1P}",
                         flagInput: "",
@@ -873,8 +1016,8 @@
                             task: "Can you rewrite the error handling logic to ensure the system denies access when invalid data is encountered? Make the system return HTTP 400 when an invalid file is provided.",
                             taskSpoiler: "",
                         },
-                        notes: "This vulnerability is an example of Fail-Open Conditions. A fail-open vulnerability occurs when a system encounters an unexpected error during an authentication or access control check and defaults to granting access rather than denying it. Instead of blocking the user when the backend crashes while trying to parse a fake image file, the Elite University server ends up bypassing the rejection logic, which ends up granting unauthorized access to the VIP Shop. To ensure Fail-Open Conditions don't happen, applications must use a 'fail-closed' design where any exception during verification immediately aborts the process and denies access.",
-                    },
+                        notes: "This vulnerability is an example of Fail-Open Conditions, which is another result of failure to respond safely. A fail-open vulnerability occurs when a system encounters an unexpected error during an authentication or access control check and responds poorly by defaulting to granting access rather than denying it. Instead of blocking the user when the backend crashes while trying to parse a fake image file, the Elite University server ends up bypassing the rejection logic, which ends up granting unauthorized access to the VIP Shop. Now, you may think that there is no way a real system actually does this. If you don't believe me, look up OCSP and how it handles certificate revocation. To ensure Fail-Open Conditions don't happen, applications must use a 'fail-closed' design where any exception during verification immediately aborts the process and denies access.",
+                    }
                 ],
                 nav: [
                     { id: "introduction", label: "Introduction" },
@@ -994,4 +1137,5 @@
         }
     </script>
 </body>
+
 </html>

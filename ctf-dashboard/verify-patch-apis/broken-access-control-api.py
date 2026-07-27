@@ -70,7 +70,7 @@ def test_challenge_1() -> dict[str, Any]:
 
         return _result(
             True,
-            f"PATCH SUCCESS",
+            f"GOOD JOB!",
         )
     except requests.RequestException as error:
         return _result(False, f"FAIL: could not reach challenge app — {error}")
@@ -109,7 +109,7 @@ def test_challenge_2() -> dict[str, Any]:
 
         return _result(
             True,
-            f"PATCH SUCCESS",
+            f"GOOD JOB!",
         )
     except requests.RequestException as error:
         return _result(False, f"FAIL: could not reach challenge app — {error}")
@@ -147,7 +147,7 @@ def test_challenge_3() -> dict[str, Any]:
 
         return _result(
             True,
-            f"PATCH SUCCESS",
+            f"GOOD JOB!",
         )
     except requests.RequestException as error:
         return _result(False, f"FAIL: could not reach challenge app — {error}")
@@ -222,7 +222,7 @@ def test_challenge_4() -> dict[str, Any]:
 
         return _result(
             True,
-            "PATCH SUCCESS",
+            "GOOD JOB!",
         )
     except requests.RequestException as error:
         return _result(False, f"FAIL: could not reach challenge app — {error}")

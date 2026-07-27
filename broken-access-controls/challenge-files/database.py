@@ -176,7 +176,7 @@ def get_exam_solutions() -> list[dict]:
 
 
 def get_classmates() -> list[dict]:
-    """Return all students, including uuid (intentional info disclosure)."""
+    """Return all students"""
     conn = get_connection()
     try:
         rows = conn.execute(
@@ -251,6 +251,5 @@ def update_user_profile(user_id: int, payload: dict) -> dict | None:
     finally:
         conn.close()
 
-    # If user_id itself was changed, look up by the new value
-    lookup_id = updates.get("user_id", user_id)
-    return get_user_by_id(lookup_id)
+    return user_id
+
