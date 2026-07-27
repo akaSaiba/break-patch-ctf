@@ -163,7 +163,7 @@ def test_challenge_4() -> dict[str, Any]:
     try:
         player = _session_for(PLAYER_USER_ID)
 
-        # Ensure we start from a known student role if a prior run escalated.
+        # reset student role
         _put(player, "/api/profile", {"role": "student", "name": "Bob McBuilder"})
 
         escalate = _put(
@@ -190,14 +190,12 @@ def test_challenge_4() -> dict[str, Any]:
 
         role = profile.json().get("role")
         if role == "staff":
-            # Restore so later checks / lab use stay sane.
             _put(player, "/api/profile", {"role": "student", "name": "Bob McBuilder"})
             return _result(
                 False,
                 "Mass assignment still allows setting role to staff via PUT /api/profile.",
             )
 
-        # Legitimate edit should still succeed.
         edit = _put(
             player,
             "/api/profile",
@@ -212,7 +210,6 @@ def test_challenge_4() -> dict[str, Any]:
                 f"Normal profile edits should still work (expected 200, got {edit.status_code}).",
             )
 
-        # Staff-only solutions must remain protected for students.
         solutions = _get(player, "/api/staff/exams/solutions")
         if solutions.status_code == 200:
             return _result(

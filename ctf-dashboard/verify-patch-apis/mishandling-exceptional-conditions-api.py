@@ -41,8 +41,9 @@ def test_challenge_1() -> dict[str, Any]:
     """
     Challenge 1
 
-    Patch must return HTTP 400 on malformed search queries and must not leak
-    the admin API key. Normal searches should still work.
+    Patch must catch search failures and return HTTP 400 instead of crashing
+    with a debug stack trace (which can expose the admin API key). Normal
+    searches should still work.
     """
     try:
         player = _session_for(PLAYER_USER_ID)
@@ -55,12 +56,18 @@ def test_challenge_1() -> dict[str, Any]:
             )
 
         broken_query = _get(player, "/api/activities/search", params={"query": "'"})
-        body = broken_query.text
 
-        if ADMIN_API_KEY in body:
+        if broken_query.status_code >= 500:
             return _result(
                 False,
-                "Malformed search still leaks the admin API key in the error response.",
+                f"Malformed search still crashes the app (got {broken_query.status_code}). "
+                "Catch the error and return HTTP 400.",
+            )
+
+        if broken_query.status_code != 400:
+            return _result(
+                False,
+                f"Malformed search should return 400 (got {broken_query.status_code}).",
             )
 
         return _result(True, "GOOD JOB!")
@@ -89,7 +96,6 @@ def test_challenge_2() -> dict[str, Any]:
             )
         points_before = before.json().get("points", 0)
 
-        # Test non-string payload: vulnerable code awards points then crashes while saving.
         bad = _post(
             player,
             "/api/introduce",
