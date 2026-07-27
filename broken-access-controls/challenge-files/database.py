@@ -10,9 +10,7 @@ USER_COLUMNS = {
     "password",
     "name",
     "bio",
-    "user_id",
     "role",
-    "uuid",
 }
 
 

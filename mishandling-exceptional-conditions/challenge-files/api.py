@@ -3,7 +3,7 @@ from pathlib import Path
 import sys
 
 from fastapi import APIRouter, Body, Cookie, Depends, File, Header, HTTPException, Response, UploadFile
-from PIL import Image
+from PIL import Image, UnidentifiedImageError
 
 from database import (
     award_introduction_bonus,
@@ -310,8 +310,8 @@ async def api_verify_badge(
         # Always denies VIP access (since the you don't have a badge)
         set_vip(user["user_id"], False) # VIP access granted
 
-        return {"message": "Invalid Badge. VIP access denied."}
-    except Exception:
+        raise HTTPException(status_code=403, detail="Badge is invalid, VIP access denied.")
+    except UnidentifiedImageError:
         # API call failed, badge is probably valid
         set_vip(user["user_id"], True)
         

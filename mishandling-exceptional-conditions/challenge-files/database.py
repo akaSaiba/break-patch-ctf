@@ -109,6 +109,17 @@ def search_activities(query: str) -> list[dict]:
         conn.close()
 
 
+# Below is the database schema for the users table, this will be useful in challenge 3
+# CREATE TABLE users (
+#     id INTEGER PRIMARY KEY AUTOINCREMENT,
+#     username TEXT NOT NULL UNIQUE,
+#     password TEXT NOT NULL,
+#     name TEXT NOT NULL,
+#     user_id INTEGER NOT NULL UNIQUE,
+#     points INTEGER NOT NULL DEFAULT 0,
+#     introduction TEXT,
+#     vip INTEGER NOT NULL DEFAULT 0
+# );
 def award_introduction_bonus(user_id: int, introduction) -> dict:
     """Awards introduction bonus to a user and saves their introduction."""
     conn = get_connection()
